@@ -14,18 +14,15 @@
     <!-- 01. 메인 홈 화면 (Main Home Screen) -->
     <!-- ================================================================= -->
     <main class="welcome-screen" id="main-screen">
-        <!-- 메인 화면 우측 상단 히든 터치 영역 (3초 내 5회 탭 시 관리자 인증 호출) -->
         <div class="hidden-admin-trigger" onclick="handleHiddenAdminTap()"></div>
 
-        <!-- 1번 구역: 메인 타이틀 -->
-        <div class="content-header">
+        <div class="content-header fly-in">
             <h1 class="main-title">인천공항 홍보관</h1>
             <p class="sub-title">공항의 경계를 넘어 세상을 연결하는 인천공항</p>
         </div>
 
-        <!-- 2번 구역: 1 Large + 4 Small 벤토 그리드 (총 5개 카드) -->
         <div class="menu-container">
-            <!-- 1 Large: 인천국제공항 마스터플랜 (와이드 카드) -->
+            <!-- 1. 마스터플랜 와이드 카드 -->
             <div class="menu-card card-blue card-master-wide" onclick="openDepth('masterplan')">
                 <div class="wide-left">
                     <div class="card-icon"><i class="fa-solid fa-map-location-dot"></i></div>
@@ -37,7 +34,7 @@
                 <div class="arrow-btn"><i class="fa-solid fa-arrow-right"></i></div>
             </div>
 
-            <!-- 2) 친환경 에너지 공항 -->
+            <!-- 2. 친환경 에너지 공항 -->
             <div class="menu-card card-teal" onclick="openDepth('eco')">
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-leaf"></i></div>
@@ -47,7 +44,7 @@
                 <p>지속가능한 미래를 위한 선택</p>
             </div>
 
-            <!-- 3) 스마트 AI 공항 -->
+            <!-- 3. 스마트 AI 공항 -->
             <div class="menu-card card-deep" onclick="openDepth('smart')">
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
@@ -57,7 +54,7 @@
                 <p>AI 기술로 더 스마트한 공항</p>
             </div>
 
-            <!-- 4) LED 미디어 플랫폼 -->
+            <!-- 4. LED 미디어 플랫폼 -->
             <div class="menu-card card-purple" onclick="openDepth('led')">
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-display"></i></div>
@@ -67,7 +64,7 @@
                 <p>빛으로 연결되는 새로운 경험</p>
             </div>
 
-            <!-- 5) 세계명소 (landmark-gallery로 통일) -->
+            <!-- 5. 세계명소 -->
             <div class="menu-card card-amber" onclick="openDepth('landmark-gallery')">
                 <div class="card-header">
                     <div class="card-icon"><i class="fa-solid fa-earth-americas"></i></div>
@@ -78,12 +75,14 @@
             </div>
         </div>
 
-        <!-- 3번 구역: 하단 네비게이션 바 -->
+        <!-- 하단 내비게이션 바 -->
         <div class="content-footer">
             <div class="bottom-nav">
-                <div class="nav-title">홍보관 둘러보기</div>
+                <div class="nav-title">
+                    <i class="fa-regular fa-compass nav-title-icon"></i>
+                    <span>홍보관 둘러보기</span>
+                </div>
                 <div class="nav-icons">
-                    <!-- 1. 홍보관 -->
                     <div class="nav-item" onclick="openDepth('PR zone')">
                         <div class="nav-circle icon-pr">
                             <i class="fa-solid fa-plane-departure"></i>
@@ -91,18 +90,15 @@
                         <span>홍보관</span>
                     </div>
                     
-                    <!-- 2. 브릿지 -->
                     <div class="nav-item" onclick="openDepth('Bridge')">
                         <div class="nav-circle icon-bridge">
                             <i class="fa-solid fa-bridge-water"></i>
                         </div>
                         <span>브릿지</span>
-                    </div>
-                    
-                    <!-- 3. 이벤트 -->
+                    </div> 
                     <div class="nav-item" onclick="openDepth('event')">
                         <div class="nav-circle icon-event">
-                            <i class="fa-solid fa-gift"></i>
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
                         </div>
                         <span>이벤트</span>
                     </div>
@@ -114,7 +110,6 @@
     <!-- ================================================================= -->
     <!-- 02. 관리자 인증 모달 & 대시보드 -->
     <!-- ================================================================= -->
-    <!-- 비밀번호 확인 팝업 -->
     <div id="admin-auth-modal" class="admin-modal" style="display: none;">
         <div class="admin-modal-content">
             <h3><i class="fa-solid fa-lock"></i> 관리자 전용 인증</h3>
@@ -127,7 +122,6 @@
         </div>
     </div>
 
-    <!-- 관리자 통계 대시보드 화면 -->
     <section class="depth-screen admin-screen" id="admin-screen" style="display: none;">
         <div class="depth-header">
             <button class="back-btn" onclick="closeAdminDashboard()">
@@ -138,14 +132,15 @@
         <div class="admin-dashboard-container">
             <div class="dashboard-header">
                 <h2>📊 전시관 통계 분석 대시보드</h2>
-                <p>구글 스프레드시트와 실시간 동기화되는 로컬 통계 요약입니다.</p>
+                <p>구글 스프레드시트와 실시간 연동되는 로컬 통계 데이터입니다.</p>
             </div>
 
+            <!-- 요약 카드 -->
             <div class="admin-card">
-                <h3>⏱️ 1인당 웹앱 총 이용 시간 분석</h3>
+                <h3>⏱️ 총 관람객 체류 현황 요약</h3>
                 <div style="display: flex; justify-content: space-around; text-align: center; padding: 10px 0;">
                     <div>
-                        <span style="font-size: 0.8rem; color: #64748B; display: block;">총 방문 기기(세션)</span>
+                        <span style="font-size: 0.8rem; color: #64748B; display: block;">총 방문 세션 (IN)</span>
                         <strong id="stat-total-sessions" style="font-size: 1.4rem; color: #1E293B;">0회</strong>
                     </div>
                     <div style="border-left: 1px solid #E2E8F0;"></div>
@@ -156,6 +151,25 @@
                 </div>
             </div>
 
+            <!-- 최근 방문자 In/Out 로그 (10분 타임아웃 세션 내역) -->
+            <div class="admin-card">
+                <h3>🚪 최근 방문자 IN / OUT 타임라인 (10분 기준)</h3>
+                <table class="stat-table">
+                    <thead>
+                        <tr>
+                            <th>방문번호</th>
+                            <th>진입 일시(IN)</th>
+                            <th>이탈 일시(OUT)</th>
+                            <th>체류시간</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stat-session-log-tbody">
+                        <tr><td colspan="4" style="text-align: center;">기록된 방문 로그가 없습니다.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 콘텐츠별 조회 건수 및 관람시간 -->
             <div class="admin-card">
                 <h3>⏱️ 콘텐츠별 평균 관람 시간 & 조회 건수</h3>
                 <table class="stat-table">
@@ -170,6 +184,7 @@
                 </table>
             </div>
 
+            <!-- 요일 및 시간대 패턴 -->
             <div class="admin-card">
                 <h3>📅 요일 및 시간대별 이용 패턴</h3>
                 <div class="pattern-grid">
@@ -276,11 +291,13 @@
                     <div class="sub-circle"><i class="fa-solid fa-lightbulb"></i></div>
                     <span>인천공항 녹색혁신</span>
                 </div>
-                <div class="sub-item" onclick="openFinalDetail('친환경 공항 조성')">
+                <!-- 3뎁스 메뉴로 연결하도록 함수 변경 -->
+                <div class="sub-item" onclick="openEcoBuildMenu()">
                     <div class="sub-circle"><i class="fa-solid fa-tree"></i></div>
                     <span>친환경 공항 조성</span>
                 </div>
-                <div class="sub-item" onclick="openFinalDetail('항공 탄소배출 저감')">
+                <!-- 3뎁스 메뉴로 연결하도록 함수 변경 -->
+                <div class="sub-item" onclick="openEcoCarbonMenu()">
                     <div class="sub-circle"><i class="fa-solid fa-smog"></i></div>
                     <span>항공 탄소배출 저감</span>
                 </div>
@@ -314,7 +331,43 @@
             </div>
         </div>
 
-        <!-- 3-5) 스마트 AI 공항 2뎁스 -->
+        <!-- ★ [신설] 3-5) 친환경 공항 조성 3뎁스 -->
+        <div class="sub-menu-view" id="eco-build-sub-menu" style="display: none;">
+            <div class="sub-menu-header">
+                <h2>친환경 공항 조성</h2>
+                <p>친환경 교통체계와 자연 생태계가 공존하는 생태 공항 구현</p>
+            </div>
+            <div class="sub-menu-list">
+                <div class="sub-item" onclick="openFinalDetail('그린모빌리티 전환')">
+                    <div class="sub-circle"><i class="fa-solid fa-charging-station"></i></div>
+                    <span>그린모빌리티 전환</span>
+                </div>
+                <div class="sub-item" onclick="openFinalDetail('생태계와 기후변화 대응')">
+                    <div class="sub-circle"><i class="fa-solid fa-seedling"></i></div>
+                    <span>생태계와 기후변화 대응</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ★ [신설] 3-6) 항공 탄소배출 저감 3뎁스 -->
+        <div class="sub-menu-view" id="eco-carbon-sub-menu" style="display: none;">
+            <div class="sub-menu-header">
+                <h2>항공 탄소배출 저감</h2>
+                <p>지속가능항공유(SAF) 도입과 첨단 스마트 관제 기술의 융합</p>
+            </div>
+            <div class="sub-menu-list">
+                <div class="sub-item" onclick="openFinalDetail('친환경 연료 도입')">
+                    <div class="sub-circle"><i class="fa-solid fa-gas-pump"></i></div>
+                    <span>친환경 연료 도입</span>
+                </div>
+                <div class="sub-item" onclick="openFinalDetail('첨단 운항 시스템')">
+                    <div class="sub-circle"><i class="fa-solid fa-tower-broadcast"></i></div>
+                    <span>첨단 운항 시스템</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-7) 스마트 AI 공항 2뎁스 -->
         <div class="sub-menu-view" id="smart-sub-menu" style="display: none;">
             <div class="sub-menu-header">
                 <h2>스마트 AI 공항</h2>
@@ -332,7 +385,7 @@
             </div>
         </div>
 
-        <!-- 3-6) LED 미디어 플랫폼 2뎁스 -->
+        <!-- 3-8) LED 미디어 플랫폼 2뎁스 -->
         <div class="sub-menu-view" id="led-sub-menu" style="display: none;">
             <div class="sub-menu-header">
                 <h2>LED 미디어 플랫폼</h2>
@@ -354,26 +407,26 @@
             </div>
         </div>
 
-        <!-- 3-7) 세계명소 3x6 그리드 갤러리 뷰 -->
+        <!-- 3-9) 세계명소 3x6 그리드 갤러리 뷰 -->
         <div class="sub-menu-view landmark-gallery-wrapper" id="landmark-gallery-view" style="display: none; width: 100%;">
             <div class="landmark-gallery-header">
                 <h2>세계 명소 갤러리</h2>
                 <p>전 세계의 주요 랜드마크를 터치하여 확인해 보세요</p>
             </div>
-            <!-- 자바스크립트 renderLandmarkGallery()가 3x6으로 정렬 주입 -->
             <div class="landmark-grid" id="landmark-grid"></div>
         </div>
 
-        <!-- 3-8) 최종 공통 상세 화면 프레임 -->
+        <!-- 3-10) 최종 공통 상세 화면 프레임 (단일 미디어 및 1:1 오디오 바) -->
         <div class="depth-body" id="general-depth-body" style="display: none;">
             <div class="depth-media-box" style="position: relative;">
                 <img src="" id="target-img" alt="전시 시각 자료" style="width: 100%; height: 100%; object-fit: cover;">
-                <video id="target-video" controls muted autoplay playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
+                <!-- 단일 비디오 태그: 무음 자동재생 및 모바일 최적화 -->
+                <video id="target-video" playsinline webkit-playsinline muted autoplay loop style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
                      
+                <!-- 브릿지 등 다중 슬라이더용 컨테이너 유지 -->
                 <div id="slider-container" style="display: none; width: 100%; height: 100%; position: relative;">
                     <img src="" id="slider-img" alt="슬라이드 시각 자료" style="width: 100%; height: 100%; object-fit: cover;">
-                    <!-- 브릿지 등 다중 동영상 슬라이더 정적 태그 -->
-                    <video id="slider-video" controls playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
+                    <video id="slider-video" controls playsinline webkit-playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
                     
                     <button class="slide-btn prev-btn" onclick="moveSlide(-1)" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"><i class="fa-solid fa-chevron-left"></i></button>
                     <button class="slide-btn next-btn" onclick="moveSlide(1)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"><i class="fa-solid fa-chevron-right"></i></button>
@@ -383,7 +436,7 @@
 
             <!-- 오디오 플레이어 바 -->
             <div class="audio-player-zone">
-                <audio id="target-audio" src=""></audio>
+                <audio id="target-audio" src="" preload="metadata"></audio>
                 <button class="audio-control-btn" id="audio-toggle-btn" onclick="toggleAudio()">
                     <div class="btn-left-content">
                         <i class="fa-solid fa-play" id="audio-icon"></i>
@@ -410,7 +463,7 @@
             </div>
         </div>
 
-        <!-- 3-9) 하단바 이벤트 전용: 세계 랜드마크 탐험 퀴즈 화면 -->
+        <!-- 3-11) 퀴즈 화면 -->
         <div class="sub-menu-view event-game-wrapper" id="event-game-view" style="display: none; width: 100%;">
             <div class="game-card">
                 <div id="quiz-screen">
@@ -418,7 +471,7 @@
                         <div class="header-left-group">
                             <div class="timer-alarm-box" id="timer-box">
                                 <span class="alarm-icon" id="alarm-icon">⏰</span>
-                                <span id="time-text">10s</span>
+                                <span id="time-text">30s</span>
                             </div>
                         </div>
 
@@ -430,7 +483,7 @@
                     </div>
 
                     <div class="timer-hint-notice" id="timer-hint-notice">
-                        ⏳ <span class="notice-highlight">10초</span> 후 초성 힌트가 열려요! (남은 기회: 3회)
+                        ⏳ <span class="notice-highlight">30초</span> 후 초성 힌트가 열려요! (남은 기회: 3회)
                     </div>
 
                     <div class="timer-track">
@@ -445,15 +498,12 @@
                                         <div class="shutter-handle"></div>
                                     </div>
                                     <div class="window-glare"></div>
-                                    
                                     <div class="hint-alert-tag" id="hint-alert">💡 초성 힌트 오픈!</div>
-                                    
                                     <div class="passport-stamp" id="passport-stamp">
                                         <span class="stamp-header">REPUBLIC OF KOREA</span>
                                         <span class="stamp-body" id="stamp-body">✈️ ENTRY</span>
-                                        <span class="stamp-date" id="stamp-date">ICN • 2026.09.22</span>
+                                        <span class="stamp-date" id="stamp-date">ICN • 2026.09.30</span>
                                     </div>
-
                                     <img id="landmark-img" src="" alt="랜드마크" />
                                 </div>
                             </div>
@@ -519,7 +569,7 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- 04. 세계명소 상세 확대 모달 (전역 팝업) -->
+    <!-- 04. 세계명소 상세 확대 모달 (국기 및 랜드마크 아이콘 적용) -->
     <!-- ================================================================= -->
     <div id="landmark-modal" class="landmark-modal" style="display: none;">
         <div class="landmark-modal-backdrop" onclick="closeLandmarkModal()"></div>
@@ -532,9 +582,8 @@
             </div>
             <div class="modal-info-wrap">
                 <div class="modal-title-row">
-                    <i class="fa-solid fa-location-dot modal-pin-icon"></i>
-                    <h3 id="modal-landmark-title">명소 이름</h3>
-                </div>
+                 <h3 id="modal-landmark-title"></h3>
+              </div>
                 <p id="modal-landmark-desc">명소에 대한 상세 설명이 표시됩니다.</p>
             </div>
         </div>

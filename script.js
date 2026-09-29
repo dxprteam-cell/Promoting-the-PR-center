@@ -1,182 +1,157 @@
 /* ==========================================================================
    01. GLOBAL STATE (전역 상태 및 라우팅 추적 플래그)
    ========================================================================== */
-let currentStep = 'home'; 
+let currentStep = 'home';
 let prevStep = 'home';
-let activeMenuId = null; 
+let activeMenuId = null;
 let currentDetailData = null;
-let isVideoStarted = false; // 브릿지 및 미디어 재생 제어 플래그
 
 // 슬라이더 및 본문 페이징 인덱스
-let currentSlideIdx = 0;   
-let currentSlideArray = []; 
+let currentSlideIdx = 0;
+let currentSlideArray = [];
 let currentDescIdx = 0;
 let currentDescArray = [];
 
 /* ==========================================================================
-   02. DATA SETS (콘텐츠 마스터 데이터)
+   02. DATA SETS (콘텐츠 마스터 데이터 & 영문 표준화 매핑)
    ========================================================================== */
-// 1) 상세 화면 매핑 데이터셋
 const finalDetailData = {
     // 1-1) 마스터플랜 ➔ 단계별 건설사업 5종
     "부지 조성": {
-        img: './assets/images/단계별 건설사업/부지조성.jpg', 
-        audio: './assets/audios/마스터플랜/land_setup.mp3', 
+        img: './assets/images/construction/land_setup.jpg',
+        audio: './assets/audios/masterplan/land_setup.mp3',
         desc: `1990년 6월, 공항 건설을 위해 다양한 후보지가 거론되었고, 항공기의 안전운항과 소음피해, 도심과의 접근성을 고려하여 영종도가 신공항부지로 선정되었습니다. \n신공항부지는 영종도, 용유도, 신불도, 삼목도 네 개의 섬 사이의 바다를 메워 조성되었으며, 총 넓이는 1700만평입니다.`
     },
     "1단계 건설사업": {
-        img: './assets/images/단계별 건설사업/1단계.jpg',
-        audio: './assets/audios/마스터플랜/phase1.mp3',
+        img: './assets/images/construction/phase1.jpg',
+        audio: './assets/audios/masterplan/phase1.mp3',
         desc: "1단계 건설사업은 해상매립과 부지조성을 포함한 제1여객터미널과 제1교통센터, 주 관제탑, 첫 번째, 두 번째 활주로가 해당되며, 2001년 3월 29일에 개항했습니다."
     },
     "2단계 건설사업": {
-        img: './assets/images/단계별 건설사업/2단계.jpg',
-        audio: './assets/audios/마스터플랜/phase2.mp3',
+        img: './assets/images/construction/phase2.jpg',
+        audio: './assets/audios/masterplan/phase2.mp3',
         desc: "2단계 건설사업은 탑승동과 제1계류장 관제탑, 제3활주로가 해당되며, 2008년 6월 20일에 오픈했습니다."
     },
     "3단계 건설사업": {
-        img: './assets/images/단계별 건설사업/3단계.jpg',
-        audio: './assets/audios/마스터플랜/phase3.mp3',
+        img: './assets/images/construction/phase3.jpg',
+        audio: './assets/audios/masterplan/phase3.mp3',
         desc: "3단계 건설사업은 제 2여객터미널의 일부와 제 2교통센터, \n제 2계류장 관제탑과 공항 철도 연결 등이 해당되며, 2018년 1월 18일에 오픈했습니다."
     },
     "4단계 건설사업": {
-        img: './assets/images/단계별 건설사업/4단계.jpg',
-        audio: './assets/audios/마스터플랜/phase4.mp3',
+        img: './assets/images/construction/phase4.jpg',
+        audio: './assets/audios/masterplan/phase4.mp3',
         desc: "4단계 건설사업은 제2여객터미널과 교통센터 및 주차 시설 확장, 제4활주로와 고속탈출유도로 건설 및 T2 진입도로와 내부연결도로 확충 등이 해당되며, 2024년 12월 3일 완성되었습니다."
     },
 
-    // 1-2) 친환경 에너지 공항 서브메뉴
+    // 1-2) 친환경 에너지 공항 (동영상 단일화 및 3뎁스 신설 4종 반영)
     "Green Innovation": {
-        img: './assets/images/친환경에너지공항/Green Innovation.jpg',
-        audio: './assets/audios/친환경에너지공항/Green Innovation.mp3',
-        desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
-    },
-    "인천공항 녹색혁신": {
-        img: './assets/images/친환경에너지공항/Green Innovation.jpg',
-        audio: './assets/audios/친환경에너지공항/Green Innovation.mp3',
+        video: './assets/videos/eco/green_innovation.mp4',
+        audio: './assets/audios/eco/green_innovation.mp3',
         desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
     },
     "태양광·지열 에너지": {
-        media: [
-            { type: 'video', src: './assets/videos/친환경에너지공항/태양광.mp4' },
-            { type: 'video', src: './assets/videos/친환경에너지공항/지열.mp4' }
-        ],
-        audio: './assets/audios/친환경에너지공항/Solar Engergy.mp3',
+        video: './assets/videos/eco/solar_geo.mp4',
+        audio: './assets/audios/eco/solar_geo.mp3',
         desc: `태양광 구축을 통해 에너지 자립 RE100 달성에 기여하며, 민간투자를 통해 친환경 전력 생산을 늘려 환경 보호와 전기요금 절감 등을 도모하고 있습니다. 또한 제2여객터미널 지하에 있는 지열 우물을 조성하여 이를 히트펌프 시스템과 연계해 실내 냉/난방에 활용하고 있습니다.\n*RE100: 기업이 사용하는 전력의 100%를 재생에너지 전력으로 조달하겠다는 글로벌 이니셔티브(Renewable Electricity).`
     },
     "미래공항 에너지": {
-        img: './assets/images/친환경에너지공항/미래공항에너지.jpg',
-        audio: './assets/audios/친환경에너지공항/eco_build.mp3',
+        video: './assets/videos/eco/future_energy.mp4',
+        audio: './assets/audios/eco/future_energy.mp3',
         desc: `연료전지 및 수소발전 등 공항산업에서 신재생에너지의 다각화를 위한 노력을 통해 RE100(2040) 조기 달성에 기여하고자 합니다. \n1.2MW용량의 연료전지를 선제도입하여 피크시간대 전력수요에 대응하기 위해 활용하고 있으며, 2040년 이후 수소항공기 도입에 대비해 수전해로 생산한 수소를 차량과 항공기에 활용하는 미래 전략을 구상하고 있습니다.`
     },
-    "친환경 공항 조성": {
-        title: ['그린모빌리티 전환', '생태계와 기후변화 대응'],
-        media: [
-            { type: 'video', src: './assets/videos/친환경에너지공항/그린모빌리티전환.mp4' },
-            { type: 'video', src: './assets/videos/친환경에너지공항/green1.mp4' }
-        ],
-        audio: [
-            './assets/audios/친환경에너지공항/Green Mobility.mp3',
-            './assets/audios/친환경에너지공항/생태계보전과 기후변화 대응.mp3'
-        ],
-        desc: [
-            `인천국제공항은 친환경 교통수단 확대와 녹지 공간 조성, 기후 변화 대응을 통해 지속 가능한 공항 환경을 만들어 가고 있습니다.\n공항교통의 탈탄소화를 위해 전기차와 수소차 등 친환경 차량을 확대하고 충전 인프라를 구축하고 있으며, 업무용 차량은 100% 친환경 차량으로 전환되었고, 셔틀버스와 지상 조업 차량도 단계적으로 전환하고 있습니다.`,
-            `생태습지를 조성하고 생태환경을 연결하는 등 체계적인 녹지 관리를 통해 기후변화에 대응하고 생물 다양성을 보전하고 있으며, 기후위기에 선제적으로 대응하기 위해 과학적인 위험 평가와 체계적인 대응 로드맵을 수립하고 있습니다.`
-        ]
+    "그린모빌리티 전환": {
+        video: './assets/videos/eco/green_mobility.mp4',
+        audio: './assets/audios/eco/green_mobility.mp3',
+        desc: `인천국제공항은 친환경 교통수단 확대와 녹지 공간 조성, 기후 변화 대응을 통해 지속 가능한 공항 환경을 만들어 가고 있습니다.\n공항교통의 탈탄소화를 위해 전기차와 수소차 등 친환경 차량을 확대하고 충전 인프라를 구축하고 있으며, 업무용 차량은 100% 친환경 차량으로 전환되었고, 셔틀버스와 지상 조업 차량도 단계적으로 전환하고 있습니다.`
     },
-    "항공 탄소배출 저감": {
-        title: ['친환경 연료 도입', '첨단 운항 시스템'],
-        media: [
-            { type: 'video', src: './assets/videos/친환경에너지공항/SAF.mp4' },
-            { type: 'video', src: './assets/videos/친환경에너지공항/AC_GPS.mp4' }
-        ],
-        audio: [
-            './assets/audios/친환경에너지공항/SAF_AC GPS.mp3',
-            './assets/audios/친환경에너지공항/첨단운항시스템.mp3'
-        ],
-        desc: [
-            `SAF는 폐식용유 등에서 만든 친환경 연료로 기존 항공유보다 온실가스를 최대 80% 감축할 수 있습니다. 인천국제공항은 2023년 국내 최초로 SAF 실증을 마치고, 2024년부터 SAF 급유 상용 운항을 시작했습니다.\nAC-GPS는 항공기가 지상에 있을 때 외부 전력을 공급하는 장치입니다. 인천국제공항은 매연(탄소) 및 소음발생이 많은 보조발전엔진(APU) 사용을 대체할 수 있는 항공기 지상전환공급장치(AC-GPS) 265기를 운영 중입니다.`,
-            `A-SMGCS는 공항 지상에서 항공기의 위치를 실시간으로 파악하고, 안전한 이동경로를 안내하는 첨단 지상관제 시스템입니다.\n인천국제공항은 A-SMGCS를 통해 항공기의 이동 경로를 효율적으로 관리하고 충돌 위험과 유도로 오진입을 줄여 안정성을 높이고 있습니다.\n또한 불필요한 이동과 대기시간을 줄여 약 6%의 탄소 배출 저감에도 기여하고 있습니다.`
-        ]
+    "생태계와 기후변화 대응": {
+        video: './assets/videos/eco/eco_climate.mp4',
+        audio: './assets/audios/eco/eco_climate.mp3',
+        desc: `생태습지를 조성하고 생태환경을 연결하는 등 체계적인 녹지 관리를 통해 기후변화에 대응하고 생물 다양성을 보전하고 있으며, 기후위기에 선제적으로 대응하기 위해 과학적인 위험 평가와 체계적인 대응 로드맵을 수립하고 있습니다.`
+    },
+    "친환경 연료 도입": {
+        video: './assets/videos/eco/saf_ac_gps.mp4',
+        audio: './assets/audios/eco/saf_ac_gps.mp3',
+        desc: `SAF는 폐식용유 등에서 만든 친환경 연료로 기존 항공유보다 온실가스를 최대 80% 감축할 수 있습니다. 인천국제공항은 2023년 국내 최초로 SAF 실증을 마치고, 2024년부터 SAF 급유 상용 운항을 시작했습니다.\nAC-GPS는 항공기가 지상에 있을 때 외부 전력을 공급하는 장치입니다. 인천국제공항은 매연(탄소) 및 소음발생이 많은 보조발전엔진(APU) 사용을 대체할 수 있는 항공기 지상전환공급장치(AC-GPS) 265기를 운영 중입니다.`
+    },
+    "첨단 운항 시스템": {
+        video: './assets/videos/eco/asmgcs.mp4',
+        audio: './assets/audios/eco/asmgcs.mp3',
+        desc: `A-SMGCS는 공항 지상에서 항공기의 위치를 실시간으로 파악하고, 안전한 이동경로를 안내하는 첨단 지상관제 시스템입니다.\n인천국제공항은 A-SMGCS를 통해 항공기의 이동 경로를 효율적으로 관리하고 충돌 위험과 유도로 오진입을 줄여 안정성을 높이고 있습니다.\n또한 불필요한 이동과 대기시간을 줄여 약 6%의 탄소 배출 저감에도 기여하고 있습니다.`
     },
 
-    // 1-3) 스마트 AI 공항 서브메뉴
+    // 1-3) 스마트 AI 공항
     "공항에서 만나는 스마트 서비스": {
-        video: './assets/videos/스마트 AI 공항/자율주행 셔틀.mp4', 
-        audio: './assets/audios/스마트 AI 공항/smart_shuttle.mp3',
+        video: './assets/videos/smart/shuttle.mp4',
+        audio: './assets/audios/smart/smart_shuttle.mp3',
         desc: "인천국제공항은 인공지능과 디지털 기술을 활용해 더욱 빠르고 편리한 공항 서비스를 제공하고 있습니다. 또한 생체인식 기반 스마트패스와 카트 로봇, 자율주행 모빌리티 등 디지털 기반 핵심 서비스를 도입해 정보 접근성을 높이고 여객의 편의를 최우선으로 하는 스마트 혁신공항으로 도약하고 있습니다."
     },
     "공항 밖, 손끝에서 시작되는 여정": {
-        video: './assets/videos/스마트 AI 공항/스마트패스.mp4', 
-        audio: './assets/audios/스마트 AI 공항/smart_pass.mp3',
+        video: './assets/videos/smart/smartpass.mp4',
+        audio: './assets/audios/smart/smart_pass.mp3',
         desc: "인천국제공항 플랫폼을 활용해 비행의 첫걸음을 집에서도 준비할 수 있습니다. 인천공항+는 공항 이용객을 위한 공식 안내 앱으로 다양한 이용 정보를 제공합니다. 또한 안면 인식 기반 출국 심사 앱에 여권과 얼굴 정보를 미리 등록하면 전용 출국장을 통해 더 빠르게 출국할 수 있습니다. 뿐만 아니라 공항 밖 지정 장소에서 수하물을 미리 위탁하거나, 사전 체크인을 이용해 더욱 편리하게 출국할 수 있는 서비스도 제공하고 있습니다."
     },
 
-    // 1-4) LED 미디어 플랫폼 서브메뉴
+    // 1-4) LED 미디어 플랫폼
     "Particle": {
         title: 'Aerograph1',
-        video: './assets/videos/LED미디어플랫폼/Particle.mp4',
-        audio: './assets/audios/LED미디어플랫폼/Particle.mp3',
+        video: './assets/videos/led/particle.mp4',
+        audio: './assets/audios/led/particle.mp3',
         desc: "국내 여행객의 흐름을 대한민국을 상징하는 빨간색과 파란색을 모티브로 하여 연출한 영상입니다. 여객수요가 많을수록 빠르게 움직이며, 코로나 19로 감소했던 시기에는 움직임이 느려지는 모습으로 여객수요의 변화를 시각적으로 보여주고 있습니다."
     },
     "Line": {
         title: 'Aerograph2',
-        video: './assets/videos/LED미디어플랫폼/Line.mp4', 
-        audio: './assets/audios/LED미디어플랫폼/Line.mp3',
+        video: './assets/videos/led/line.mp4',
+        audio: './assets/audios/led/line.mp3',
         desc: "인천공항을 이용한 세계 각 지역의 해외 여행객 흐름을 선의 움직임으로 표현했습니다. 비행 중 마주하는 다채로운 하늘의 색상을 모티브로하여 서로 다른 세상의 선들이 덧대어지며 연출되며 지역별 운항수와 승객수를 수치화하여 컬러와 움직임을 함께 접목시켰습니다."
     },
     "Organic": {
         title: 'Aerograph3',
-        video: './assets/videos/LED미디어플랫폼/Organic.mp4', 
-        audio: './assets/audios/LED미디어플랫폼/Organic.mp3',
+        video: './assets/videos/led/organic.mp4',
+        audio: './assets/audios/led/organic.mp3',
         desc: "인천공항의 저탄소·친환경 구현을 위해 실천 중인 에너지 경영의 데이터를 활용한 유기적 그래픽 형태입니다. 글로벌 메가 허브 환경 기반을 의미하는 항공화물 통계를 초록색 계열로 표현하였고, 국내선과 국제선의 데이터를 자연스럽게 변화시키고 확장하는 형태로 연출했습니다."
     },
 
     // 1-5) 마스터플랜 4종
     "관광·문화": {
-        img: './assets/images/관광문화/관광문화.jpg', 
-        audio: './assets/audios/마스터플랜/tour.mp3',
+        img: './assets/images/masterplan/tourism.jpg',
+        audio: './assets/audios/masterplan/tour.mp3',
         desc: `인천공항은 하늘길을 넘어, 새로운 여행과 문화가 만나는 공간으로 나아갑니다.\n복합 리조트와 문화예술 테마파크 등 다양한 관광 자원을 연계해, 체류와 관광을 함께 즐길 수 있는 융합형 관광 허브로 발전해 나갑니다.`
     },
     "항공 지원": {
-        img: './assets/images/항공물류/항공지원.jpg', 
-        audio: './assets/audios/마스터플랜/support.mp3',
+        img: './assets/images/masterplan/support.jpg',
+        audio: './assets/audios/masterplan/support.mp3',
         desc: `인천공항은 안정적인 항공기 운항을 위해 첨단 MRO단지 조성을 추진합니다.\n항공기 정비와 수리, 점검 및 개조를 위한 인프라를 확충해 더욱 안전하고 효율적인 운항 환경을 만들어갑니다.`
     },
     "항공 물류": {
-        img: './assets/images/항공물류/항공물류.jpg', 
-        audio: './assets/audios/마스터플랜/cargo.mp3',
+        img: './assets/images/masterplan/logistics.jpg',
+        audio: './assets/audios/masterplan/cargo.mp3',
         desc: `인천공항은 글로벌 물류기업과의 협력을 바탕으로 항공 물류의 중심지로 도약합니다.\n동북아 최대 규모의 화물 배후단지와 스마트 물류 시스템을 구축해 더욱 빠르고 효율적인 물류 환경을 만들어갑니다.`
     },
     "친환경 공항": {
         img: [
-            './assets/images/친환경공항/친환경공항 에너지.jpg', 
-            './assets/images/친환경공항/친환경공항 자전거도로.jpg', 
-            './assets/images/친환경공항/친환경공항 충전소.jpg'
+            './assets/images/masterplan/eco_energy.jpg',
+            './assets/images/masterplan/eco_bike.jpg',
+            './assets/images/masterplan/eco_station.jpg'
         ],
-        audio: './assets/audios/마스터플랜/eco_master.mp3',
+        audio: './assets/audios/masterplan/eco_master.mp3',
         desc: `인천공항은 탄소 배출을 줄이고 지속 가능한 공항을 만들기 위해 친환경 에너지와 기술을 확대합니다.\n신재생에너지 도입과 저탄소 운영을 통해 미래를 위한 녹색 공항을 만들어갑니다.`
     },
 
-    // 1-6) 하단 바 퀵메뉴
+    // 1-6) 하단 퀵메뉴
     "PR zone": {
-        title: "홍보관", 
-        img: './assets/images/공항안내.jpg', 
+        title: "홍보관",
+        img: './assets/images/bg_pr.jpg',
         audio: '',
         desc: "인천공항의 터미널 구조 및 여객 편의 인프라의 핵심 가이드라인을 알기 쉽게 소개합니다."
     },
     "Bridge": {
-        title: [
-            '1단계 건설사업',
-            '2단계 건설사업',
-            '3단계 건설사업',
-            '4단계 건설사업' 
-        ],
+        title: ['1단계 건설사업', '2단계 건설사업', '3단계 건설사업', '4단계 건설사업'],
         media: [
-            { type: 'video', src: './assets/videos/브릿지/bridge_01.mp4' },
-            { type: 'video', src: './assets/videos/브릿지/bridge_02.mp4' },
-            { type: 'video', src: './assets/videos/브릿지/bridge_03.mp4' },
-            { type: 'video', src: './assets/videos/브릿지/bridge_04.mp4' }
+            { type: 'video', src: './assets/videos/bridge/bridge_01.mp4' },
+            { type: 'video', src: './assets/videos/bridge/bridge_02.mp4' },
+            { type: 'video', src: './assets/videos/bridge/bridge_03.mp4' },
+            { type: 'video', src: './assets/videos/bridge/bridge_04.mp4' }
         ],
         desc: [
             "이 곳 브릿지에서는 1단계부터 4단계까지의 단계별 건설 사업을 권민호 작가의 드로잉 작품으로 만나보실 수 있습니다. \n첫 번째 작품은 인천공항의 1단계 건설 사업을 담고 있습니다. 중앙에 위치한 거대한 두 개의 크레인이 인천공항의 심볼을 바다 위로 올리고 있는 모습이 굉장히 인상적인데요, 드넓은 바다를 매립하여 건설한 인천공항을 상징적으로 표현한 것입니다. 그리고 우측에 보이는 제비는 예로부터 보라색 제비가 많이 산다고해서 자연도라고도 불렸던 영종도의 특징을 나타낸 것입니다. 또한 인천공항의 초기 명칭인 <수도권신국제공항> 글자도 보실 수 있으며 개항 후 첫 번째로 착륙한 아시아나 항공기도 확인하실 수 있습니다.",
@@ -187,26 +162,26 @@ const finalDetailData = {
     }
 };
 
-// 2) 세계명소 18종 마스터 데이터 (3x6 갤러리)
+// 2) 세계명소 18종 마스터 데이터 (국가 코드 및 국가명 포함)
 const LANDMARK_ITEMS = [
-    { id: 1, name: "경복궁", img: "./assets/images/landmarks/1_경복궁.jpg", desc: "1395년 태조 이성계에 의해 창건된 조선 왕조의 법궁으로, 근정전과 경회루가 아름다운 대한민국의 대표 궁궐입니다." },
-    { id: 2, name: "성산일출봉", img: "./assets/images/landmarks/2_성산일출봉.jpg", desc: "제주도 동쪽에 우뚝 솟은 해안 화산체로, 유네스코 세계자연유산으로 등재된 대한민국 최고의 일출 명소입니다." },
-    { id: 3, name: "만리장성", img: "./assets/images/landmarks/3_만리장성.jpg", desc: "중국의 북방 민족 침입을 막기 위해 수천 년에 걸쳐 축조된 총연장 2만 km가 넘는 인류 최대 규모의 건축 유적입니다." },
-    { id: 4, name: "오사카성", img: "./assets/images/landmarks/4_오사카성.jpg", desc: "일본 오사카의 대표 역사 유적으로, 봄철 천수각 주변에 만개하는 벚꽃 풍경과 웅장한 해자가 장관을 이룹니다." },
-    { id: 5, name: "타지마할", img: "./assets/images/landmarks/5_타지마할.jpg", desc: "인도 아그라에 위치하며, 무굴 제국 황제 샤 자한이 왕비를 추모하기 위해 순백의 대리석으로 지은 영묘 건축의 걸작입니다." },
-    { id: 6, name: "앙코르와트", img: "./assets/images/landmarks/6_앙코르와트.jpg", desc: "캄보디아 크메르 제국 전성기에 건립된 대사원으로, 인류 역사상 가장 거대하고 신비로운 석조 종교 건축물입니다." },
-    { id: 7, name: "산토리니", img: "./assets/images/landmarks/7_산토리니.jpg", desc: "그리스 에게해의 대표 화산섬으로, 절벽 위 새하얀 골목과 파란 돔 지붕, 황홀한 에게해의 일몰로 사랑받는 휴양지입니다." },
-    { id: 8, name: "에펠탑", img: "./assets/images/landmarks/8_에펠탑.jpg", desc: "1889년 파리 만국박람회를 기념해 세워진 프랑스 파리의 영원한 상징이자 철골 예술의 정수로 불리는 랜드마크입니다." },
-    { id: 9, name: "콜로세움", img: "./assets/images/landmarks/9_콜로세움.jpg", desc: "고대 로마 검투사들의 박진감 넘치는 결투가 펼쳐졌던 5만 명 수용 규모의 웅장한 원형 경기장 유적입니다." },
-    { id: 10, name: "타워브릿지", img: "./assets/images/landmarks/10_타워브릿지.jpg", desc: "영국 런던 템스강을 가로지르는 상징적인 도개교로, 대형 선박이 지날 때 다리 중앙이 양쪽으로 열리는 구조입니다." },
-    { id: 11, name: "금문교", img: "./assets/images/landmarks/11_금문교.jpg", desc: "미국 샌프란시스코의 랜드마크로, 짙은 바다 안개 속에서도 잘 보이도록 특유의 인터내셔널 오렌지 색상으로 칠해졌습니다." },
-    { id: 12, name: "모레인호수", img: "./assets/images/landmarks/12_모레인호수.jpg", desc: "캐나다 밴프 국립공원에 위치하며, 빙하가 녹아 흘러내린 암분 덕분에 신비로운 에메랄드빛 수면을 자랑합니다." },
-    { id: 13, name: "마추픽추", img: "./assets/images/landmarks/13_마추픽추.jpg", desc: "페루 안데스 산맥 해발 2,430m에 위치한 잉카 제국의 공중도시로, 신비로운 석조 기술을 간직한 고대 유적입니다." },
-    { id: 14, name: "예수상", img: "./assets/images/landmarks/14_예수상.jpg", desc: "브라질 리우데자네이루 코르코바두산 정상에서 두 팔을 벌려 도시와 바다를 품고 있는 38m 높이의 거대한 조각상입니다." },
-    { id: 15, name: "오페라하우스", img: "./assets/images/landmarks/15_오페라하우스.jpg", desc: "호주 시드니 항구에 위치하며, 바다 위에 떠 있는 조개껍데기와 돛단배를 형상화한 현대 건축의 최고 걸작입니다." },
-    { id: 16, name: "베이오브아일랜즈", img: "./assets/images/landmarks/16_베이오브아일랜즈.jpg", desc: "뉴질랜드 북섬에 위치한 140여 개의 아열대 섬들로 이루어진 청정 해양 휴양지이자 해양 레포츠의 천국입니다." },
-    { id: 17, name: "피라미드", img: "./assets/images/landmarks/17_피라미드.jpg", desc: "이집트 기자 고원에 우뚝 서 있는 고대 파라오의 거대한 무덤으로, 세계 7대 불가사의 중 가장 대표적인 건축물입니다." },
-    { id: 18, name: "빅토리아폭포", img: "./assets/images/landmarks/18_빅토리아폭포.jpg", desc: "아프리카 잠비아와 짐바브웨 국경에 위치하며, '천둥 치는 연기'라는 원주민 이름처럼 장엄한 물보라를 뿜어내는 세계 3대 폭포입니다." }
+    { id: 1, country: "대한민국", code: "kr", name: "경복궁", img: "./assets/images/landmarks/1_경복궁.jpg", desc: "1395년 태조 이성계에 의해 창건된 조선 왕조의 법궁으로, 근정전과 경회루가 아름다운 대한민국의 대표 궁궐입니다." },
+    { id: 2, country: "대한민국", code: "kr", name: "성산일출봉", img: "./assets/images/landmarks/2_성산일출봉.jpg", desc: "제주도 동쪽에 우뚝 솟은 해안 화산체로, 유네스코 세계자연유산으로 등재된 대한민국 최고의 일출 명소입니다." },
+    { id: 3, country: "중국", code: "cn", name: "만리장성", img: "./assets/images/landmarks/3_만리장성.jpg", desc: "중국의 북방 민족 침입을 막기 위해 수천 년에 걸쳐 축조된 총연장 2만 km가 넘는 인류 최대 규모의 건축 유적입니다." },
+    { id: 4, country: "일본", code: "jp", name: "오사카성", img: "./assets/images/landmarks/4_오사카성.jpg", desc: "일본 오사카의 대표 역사 유적으로, 봄철 천수각 주변에 만개하는 벚꽃 풍경과 웅장한 해자가 장관을 이룹니다." },
+    { id: 5, country: "인도", code: "in", name: "타지마할", img: "./assets/images/landmarks/5_타지마할.jpg", desc: "인도 아그라에 위치하며, 무굴 제국 황제 샤 자한이 왕비를 추모하기 위해 순백의 대리석으로 지은 영묘 건축의 걸작입니다." },
+    { id: 6, country: "캄보디아", code: "kh", name: "앙코르와트", img: "./assets/images/landmarks/6_앙코르와트.jpg", desc: "캄보디아 크메르 제국 전성기에 건립된 대사원으로, 인류 역사상 가장 거대하고 신비로운 석조 종교 건축물입니다." },
+    { id: 7, country: "그리스", code: "gr", name: "산토리니", img: "./assets/images/landmarks/7_산토리니.jpg", desc: "그리스 에게해의 대표 화산섬으로, 절벽 위 새하얀 골목과 파란 돔 지붕, 황홀한 에게해의 일몰로 사랑받는 휴양지입니다." },
+    { id: 8, country: "프랑스", code: "fr", name: "에펠탑", img: "./assets/images/landmarks/8_에펠탑.jpg", desc: "1889년 파리 만국박람회를 기념해 세워진 프랑스 파리의 영원한 상징이자 철골 예술의 정수로 불리는 랜드마크입니다." },
+    { id: 9, country: "이탈리아", code: "it", name: "콜로세움", img: "./assets/images/landmarks/9_콜로세움.jpg", desc: "고대 로마 검투사들의 박진감 넘치는 결투가 펼쳐졌던 5만 명 수용 규모의 웅장한 원형 경기장 유적입니다." },
+    { id: 10, country: "영국", code: "gb", name: "타워브릿지", img: "./assets/images/landmarks/10_타워브릿지.jpg", desc: "영국 런던 템스강을 가로지르는 상징적인 도개교로, 대형 선박이 지날 때 다리 중앙이 양쪽으로 열리는 구조입니다." },
+    { id: 11, country: "미국", code: "us", name: "금문교", img: "./assets/images/landmarks/11_금문교.jpg", desc: "미국 샌프란시스코의 랜드마크로, 짙은 바다 안개 속에서도 잘 보이도록 특유의 인터내셔널 오렌지 색상으로 칠해졌습니다." },
+    { id: 12, country: "캐나다", code: "ca", name: "모레인호수", img: "./assets/images/landmarks/12_모레인호수.jpg", desc: "캐나다 밴프 국립공원에 위치하며, 빙하가 녹아 흘러내린 암분 덕분에 신비로운 에메랄드빛 수면을 자랑합니다." },
+    { id: 13, country: "페루", code: "pe", name: "마추픽추", img: "./assets/images/landmarks/13_마추픽추.jpg", desc: "페루 안데스 산맥 해발 2,430m에 위치한 잉카 제국의 공중도시로, 신비로운 석조 기술을 간직한 고대 유적입니다." },
+    { id: 14, country: "브라질", code: "br", name: "예수상", img: "./assets/images/landmarks/14_예수상.jpg", desc: "브라질 리우데자네이루 코르코바두산 정상에서 두 팔을 벌려 도시와 바다를 품고 있는 38m 높이의 거대한 조각상입니다." },
+    { id: 15, country: "호주", code: "au", name: "오페라하우스", img: "./assets/images/landmarks/15_오페라하우스.jpg", desc: "호주 시드니 항구에 위치하며, 바다 위에 떠 있는 조개껍데기와 돛단배를 형상화한 현대 건축의 최고 걸작입니다." },
+    { id: 16, country: "뉴질랜드", code: "nz", name: "베이오브아일랜즈", img: "./assets/images/landmarks/16_베이오브아일랜즈.jpg", desc: "뉴질랜드 북섬에 위치한 140여 개의 아열대 섬들로 이루어진 청정 해양 휴양지이자 해양 레포츠의 천국입니다." },
+    { id: 17, country: "이집트", code: "eg", name: "피라미드", img: "./assets/images/landmarks/17_피라미드.jpg", desc: "이집트 기자 고원에 우뚝 서 있는 고대 파라오의 거대한 무덤으로, 세계 7대 불가사의 중 가장 대표적인 건축물입니다." },
+    { id: 18, country: "짐바브웨", code: "zw", name: "빅토리아폭포", img: "./assets/images/landmarks/18_빅토리아폭포.jpg", desc: "아프리카 잠비아와 짐바브웨 국경에 위치하며, '천둥 치는 연기'라는 원주민 이름처럼 장엄한 물보라를 뿜어내는 세계 3대 폭포입니다." }
 ];
 
 // 3) 이벤트 퀴즈 전용 데이터셋
@@ -235,7 +210,7 @@ const FALLBACK_CHARS = ["동", "서", "남", "북", "산", "강", "빛", "별", 
 const CHOSUNG_LIST = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
 
 /* ==========================================================================
-   03. ROUTING & SCREEN CONTROLLER (화면 전환 및 내비게이션 엔진)
+   03. ROUTING & SCREEN CONTROLLER
    ========================================================================== */
 function hideAllSubViews() {
     const modal = document.getElementById('landmark-modal');
@@ -245,7 +220,9 @@ function hideAllSubViews() {
         'masterplan-sub-menu',
         'construction-sub-menu',
         'eco-sub-menu',
-        'eco-inno-sub-menu', 
+        'eco-inno-sub-menu',
+        'eco-build-sub-menu',
+        'eco-carbon-sub-menu',
         'smart-sub-menu',
         'led-sub-menu',
         'general-depth-body',
@@ -262,8 +239,8 @@ function resetDepthThemes() {
     const depthScreen = document.getElementById('depth-screen');
     if (!depthScreen) return;
     depthScreen.classList.remove(
-        'theme-masterplan', 'theme-eco', 'theme-smart', 
-        'theme-led', 'theme-landmark-gallery', 'theme-pr', 
+        'theme-masterplan', 'theme-eco', 'theme-smart',
+        'theme-led', 'theme-landmark-gallery', 'theme-pr',
         'theme-bridge', 'theme-event'
     );
 }
@@ -285,7 +262,7 @@ function openDepth(menuId) {
     
     depthScreen.style.display = 'flex';
     hideAllSubViews();
-    resetAudioPlayer(); 
+    resetAudioPlayer();
     resetDepthThemes();
     updateBackButtonText();
 
@@ -316,31 +293,22 @@ function openDepth(menuId) {
         depthScreen.classList.add('theme-led');
         document.getElementById('led-sub-menu').style.display = 'flex';
     } 
-    // ★ [예외 처리] 세계명소 갤러리 진입 (오디오 바 완전 배제 및 즉시 리턴)
     else if (menuId === 'landmark-gallery' || menuId === 'gallery') {
         currentStep = 'landmark-gallery';
         prevStep = 'home';
-        currentViewingContent = "세계명소";  
-        viewStartTime = Date.now();         
+        currentViewingContent = "세계명소";
+        viewStartTime = Date.now();
         if (depthScreen) depthScreen.classList.add('theme-landmark-gallery');
         
-        const audioZone = document.querySelector('.audio-player-zone');
-        if (audioZone) {
-            audioZone.style.display = 'none';
-        }
         resetAudioPlayer();
-        
-        if (typeof renderLandmarkGallery === 'function') {
-            renderLandmarkGallery();
-        }
+        renderLandmarkGallery();
 
         const galleryView = document.getElementById('landmark-gallery-view');
         if (galleryView) galleryView.style.display = 'flex';
 
-        if (depthScreen) depthScreen.classList.add('active'); 
-        return; // 👈 하단 else 구문 흘러내림 원천 차단
+        if (depthScreen) depthScreen.classList.add('active');
+        return;
     }
-    // ★ 이벤트 퀴즈 진입
     else if (menuId === 'event') {
         prevStep = 'home';
         currentStep = 'event-game';
@@ -353,15 +321,13 @@ function openDepth(menuId) {
         const gameView = document.getElementById('event-game-view');
         if (gameView) {
             gameView.style.display = 'flex';
-            if (typeof startLandmarkQuizGame === 'function') {
-                startLandmarkQuizGame();
-            }
+            startLandmarkQuizGame();
         }
         if (depthScreen) depthScreen.classList.add('active');
-        return; // 👈 하단 else 구문 흘러내림 원천 차단
+        return;
     }
     else {
-        // ★ 하단 바 퀵메뉴 (PR zone, Bridge) 분기
+        // 하단 바 퀵메뉴 (PR zone, Bridge)
         prevStep = 'home';
         currentStep = 'detail';
         activeMenuId = menuId;
@@ -375,12 +341,9 @@ function openDepth(menuId) {
         const data = finalDetailData[menuId];
         if (data) {
             currentDetailData = data;
-            isVideoStarted = false;
-
             currentViewingContent = (menuId === 'PR zone') ? "홍보관" : (menuId === 'Bridge') ? "브릿지" : (data.title || menuId);
             viewStartTime = Date.now();
 
-            // ★ [핵심] no-audio 클래스 추가로 오디오 공간까지 완전히 숨김
             const depthBody = document.getElementById('general-depth-body');
             if (depthBody) {
                 depthBody.classList.add('no-audio');
@@ -405,7 +368,6 @@ function openConstructionMenu() {
     prevStep = 'masterplan';
     currentStep = 'construction';
     resetAudioPlayer();
-    
     hideAllSubViews();
     document.getElementById('construction-sub-menu').style.display = 'flex';
     updateBackButtonText();
@@ -415,9 +377,26 @@ function openEcoInnovationMenu() {
     prevStep = 'eco-main';
     currentStep = 'eco-inno';
     resetAudioPlayer();
-
     hideAllSubViews();
     document.getElementById('eco-inno-sub-menu').style.display = 'flex';
+    updateBackButtonText();
+}
+
+function openEcoBuildMenu() {
+    prevStep = 'eco-main';
+    currentStep = 'eco-build';
+    resetAudioPlayer();
+    hideAllSubViews();
+    document.getElementById('eco-build-sub-menu').style.display = 'flex';
+    updateBackButtonText();
+}
+
+function openEcoCarbonMenu() {
+    prevStep = 'eco-main';
+    currentStep = 'eco-carbon';
+    resetAudioPlayer();
+    hideAllSubViews();
+    document.getElementById('eco-carbon-sub-menu').style.display = 'flex';
     updateBackButtonText();
 }
 
@@ -429,35 +408,34 @@ function openFinalDetail(detailName) {
     currentViewingContent = detailName;
     viewStartTime = Date.now();
 
-    // 진입 직전 단계를 안전하게 백업 (3뎁스 먹통 방지)
     if (currentStep !== 'detail') {
-        prevStep = currentStep; 
+        prevStep = currentStep;
     }
     currentStep = 'detail';
     
     resetAudioPlayer();
     hideAllSubViews();
 
-    // ★ [핵심] no-audio 클래스 제거 및 숨겨졌던 오디오 바를 강제로 다시 노출
     const depthBody = document.getElementById('general-depth-body');
     if (depthBody) {
         depthBody.classList.remove('no-audio');
     }
     const audioZone = document.querySelector('.audio-player-zone');
     if (audioZone) {
-        audioZone.style.display = 'block'; // 👈 항상 다시 켜줌
+        audioZone.style.display = 'block';
     }
 
     const data = finalDetailData[detailName];
     if (data) {
         currentDetailData = data;
+        activeMenuId = detailName;
         setupMediaView(data);
         setupDescView(data.desc);
 
         const firstAudio = Array.isArray(data.audio) ? data.audio[0] : (data.audio || '');
         const audioEl = document.getElementById('target-audio');
         if (audioEl) {
-            audioEl.src = firstAudio;
+            audioEl.src = encodeURI(firstAudio);
             if (firstAudio) audioEl.load();
         }
 
@@ -469,30 +447,23 @@ function openFinalDetail(detailName) {
 }
 
 function handleBack() {
-    // 1순위: 명소 상세 모달 닫기
     const modal = document.getElementById('landmark-modal');
     if (modal && modal.style.display === 'flex') {
         closeLandmarkModal();
         return;
     }
 
-    // 퀴즈 엔진 안전 정지 및 콜백 누수 차단
     if (typeof quizTimerId !== 'undefined' && quizTimerId) {
         clearInterval(quizTimerId);
         quizTimerId = null;
     }
-    isProcessing = true; // 비동기 타이머 콜백 차단
+    isProcessing = true;
 
     const depthHeader = document.querySelector('.depth-header');
     if (depthHeader) depthHeader.style.display = 'block';
 
-    try {
-        finishCurrentViewing();
-    } catch (e) {}
-
-    try {
-        resetAudioPlayer();
-    } catch (e) {}
+    try { finishCurrentViewing(); } catch (e) {}
+    try { resetAudioPlayer(); } catch (e) {}
 
     const targetVideoEl = document.getElementById('target-video');
     if (targetVideoEl) {
@@ -506,60 +477,66 @@ function handleBack() {
 
     const depthScreen = document.getElementById('depth-screen');
 
-    // 퀴즈 화면 및 세계명소 갤러리에서 뒤로가기 시 홈으로 직행
     if (currentStep === 'event-game' || currentStep === 'landmark-gallery' || currentStep === 'gallery') {
         closeToHome();
         return;
     }
 
-    // 3뎁스 상세화면에서 뒤로가기 역추적
     if (currentStep === 'detail') {
         if (prevStep === 'construction') {
             currentStep = 'construction';
             prevStep = 'masterplan';
             if (depthScreen) depthScreen.classList.add('theme-masterplan');
-            const el = document.getElementById('construction-sub-menu');
-            if (el) el.style.display = 'flex';
+            document.getElementById('construction-sub-menu').style.display = 'flex';
             return;
         } 
         if (prevStep === 'eco-inno') {
             currentStep = 'eco-inno';
             prevStep = 'eco-main';
             if (depthScreen) depthScreen.classList.add('theme-eco');
-            const el = document.getElementById('eco-inno-sub-menu');
-            if (el) el.style.display = 'flex';
+            document.getElementById('eco-inno-sub-menu').style.display = 'flex';
+            return;
+        } 
+        if (prevStep === 'eco-build') {
+            currentStep = 'eco-build';
+            prevStep = 'eco-main';
+            if (depthScreen) depthScreen.classList.add('theme-eco');
+            document.getElementById('eco-build-sub-menu').style.display = 'flex';
+            return;
+        } 
+        if (prevStep === 'eco-carbon') {
+            currentStep = 'eco-carbon';
+            prevStep = 'eco-main';
+            if (depthScreen) depthScreen.classList.add('theme-eco');
+            document.getElementById('eco-carbon-sub-menu').style.display = 'flex';
             return;
         } 
         if (prevStep === 'masterplan') {
             currentStep = 'masterplan';
             prevStep = 'home';
             if (depthScreen) depthScreen.classList.add('theme-masterplan');
-            const el = document.getElementById('masterplan-sub-menu');
-            if (el) el.style.display = 'flex';
+            document.getElementById('masterplan-sub-menu').style.display = 'flex';
             return;
         } 
         if (prevStep === 'eco-main') {
             currentStep = 'eco-main';
             prevStep = 'home';
             if (depthScreen) depthScreen.classList.add('theme-eco');
-            const el = document.getElementById('eco-sub-menu');
-            if (el) el.style.display = 'flex';
+            document.getElementById('eco-sub-menu').style.display = 'flex';
             return;
         } 
         if (prevStep === 'smart-main') {
             currentStep = 'smart-main';
             prevStep = 'home';
             if (depthScreen) depthScreen.classList.add('theme-smart');
-            const el = document.getElementById('smart-sub-menu');
-            if (el) el.style.display = 'flex';
+            document.getElementById('smart-sub-menu').style.display = 'flex';
             return;
         } 
         if (prevStep === 'led-main') {
             currentStep = 'led-main';
             prevStep = 'home';
             if (depthScreen) depthScreen.classList.add('theme-led');
-            const el = document.getElementById('led-sub-menu');
-            if (el) el.style.display = 'flex';
+            document.getElementById('led-sub-menu').style.display = 'flex';
             return;
         }
 
@@ -567,20 +544,17 @@ function handleBack() {
         return;
     }
 
-    // 2뎁스 화면에서 뒤로가기
     if (currentStep === 'construction') {
         currentStep = 'masterplan';
         prevStep = 'home';
-        const el = document.getElementById('masterplan-sub-menu');
-        if (el) el.style.display = 'flex';
+        document.getElementById('masterplan-sub-menu').style.display = 'flex';
         return;
     } 
-    if (currentStep === 'eco-inno') {
+    if (currentStep === 'eco-inno' || currentStep === 'eco-build' || currentStep === 'eco-carbon') {
         currentStep = 'eco-main';
         prevStep = 'home';
         if (depthScreen) depthScreen.classList.add('theme-eco');
-        const el = document.getElementById('eco-sub-menu');
-        if (el) el.style.display = 'flex';
+        document.getElementById('eco-sub-menu').style.display = 'flex';
         return;
     }
 
@@ -605,7 +579,7 @@ function closeToHome() {
 }
 
 /* ==========================================================================
-   04. MEDIA & AUDIO CONTROLLER (미디어 슬라이더 및 오디오 재생)
+   04. MEDIA & AUDIO CONTROLLER
    ========================================================================== */
 function setupMediaView(data) {
     const targetImgEl = document.getElementById('target-img');
@@ -617,7 +591,13 @@ function setupMediaView(data) {
         if (sliderContainerEl) sliderContainerEl.style.display = 'none';
         if (targetVideoEl) {
             targetVideoEl.style.display = 'block';
-            targetVideoEl.src = data.video;
+            targetVideoEl.muted = true;
+            targetVideoEl.setAttribute('muted', '');
+            targetVideoEl.setAttribute('playsinline', '');
+            targetVideoEl.setAttribute('webkit-playsinline', '');
+            targetVideoEl.src = encodeURI(data.video);
+            targetVideoEl.load();
+            targetVideoEl.play().catch(e => console.log("단일 비디오 자동재생 대기:", e));
         }
     } 
     else if (Array.isArray(data.media)) {
@@ -631,8 +611,8 @@ function setupMediaView(data) {
     } 
     else if (Array.isArray(data.img)) {
         if (targetVideoEl) targetVideoEl.style.display = 'none';
-        if (targetImgEl) targetImgEl.style.display = 'none';
         if (sliderContainerEl) sliderContainerEl.style.display = 'block';
+        if (targetImgEl) targetImgEl.style.display = 'none';
         
         currentSlideArray = data.img.map(src => ({ type: 'image', src: src }));
         currentSlideIdx = 0;
@@ -643,7 +623,7 @@ function setupMediaView(data) {
         if (sliderContainerEl) sliderContainerEl.style.display = 'none';
         if (targetImgEl) {
             targetImgEl.style.display = 'block';
-            targetImgEl.src = data.img || '';
+            targetImgEl.src = encodeURI(data.img || '');
         }
     }
 }
@@ -662,26 +642,32 @@ function updateMixedSlideView() {
             sliderVideo.setAttribute('playsinline', '');
             sliderVideo.setAttribute('webkit-playsinline', '');
 
-            if (sliderVideo.src !== currentItem.src) {
-                sliderVideo.src = currentItem.src;
+            const targetSrc = encodeURI(currentItem.src);
+            if (sliderVideo.src !== targetSrc) {
+                sliderVideo.src = targetSrc;
                 sliderVideo.currentTime = 0;
                 sliderVideo.load();
             }
 
-            // ★ 브릿지(Bridge)인 경우 자동재생 금지 및 소리 재생 준비
-            if (activeMenuId === 'Bridge') {
+            // 브릿지 전용 비디오: 수동 재생 제어
+            if (activeMenuId === 'Bridge' || currentItem.src.includes('bridge')) {
+                sliderVideo.controls = true;
                 sliderVideo.muted = false;
                 sliderVideo.removeAttribute('muted');
                 sliderVideo.pause();
                 sliderVideo.oncanplay = null;
+                
+                sliderVideo.addEventListener('loadeddata', () => {
+                    sliderVideo.currentTime = 0;
+                }, { once: true });
             } else {
-                // 브릿지가 아닌 일반 영상들은 자동재생 실행
+                sliderVideo.controls = false;
                 sliderVideo.muted = true;
                 sliderVideo.setAttribute('muted', '');
-
+                
                 const startPlay = () => {
                     sliderVideo.muted = true;
-                    sliderVideo.play().catch(e => console.warn("슬라이더 영상 자동재생:", e));
+                    sliderVideo.play().catch(e => console.warn("슬라이더 자동재생 대기:", e));
                 };
 
                 if (sliderVideo.readyState >= 2) {
@@ -703,7 +689,7 @@ function updateMixedSlideView() {
         }
         if (sliderImg) {
             sliderImg.style.display = 'block';
-            sliderImg.src = currentItem.src;
+            sliderImg.src = encodeURI(currentItem.src);
         }
     }
 
@@ -778,11 +764,8 @@ function updateDescView() {
     const audioElem = document.getElementById('target-audio');
     if (audioElem && currentDetailData && currentDetailData.audio) {
         resetAudioPlayer();
-        if (Array.isArray(currentDetailData.audio)) {
-            audioElem.src = currentDetailData.audio[currentDescIdx] || currentDetailData.audio[0];
-        } else {
-            audioElem.src = currentDetailData.audio;
-        }
+        const targetAudioSrc = Array.isArray(currentDetailData.audio) ? currentDetailData.audio[currentDescIdx] : currentDetailData.audio;
+        audioElem.src = encodeURI(targetAudioSrc || '');
         if (audioElem.src) audioElem.load();
     }
 }
@@ -822,7 +805,7 @@ function toggleAudio() {
             if (icon) icon.className = 'fa-solid fa-pause';
             if (text) text.innerText = '일시 정지';
             if (btn) btn.classList.add('playing');
-        }).catch(err => console.warn("오디오 재생 오류:", err));
+        }).catch(err => console.warn("오디오 재생 권한 대기:", err));
     } else {
         audio.pause();
         if (icon) icon.className = 'fa-solid fa-play';
@@ -846,8 +829,6 @@ function resetAudioPlayer() {
     const currentTimeEl = document.getElementById('audio-current-time');
     if (currentTimeEl) currentTimeEl.innerText = '00:00';
 
-    isVideoStarted = false;
-
     const video = document.getElementById('target-video');
     if (video) {
         video.pause();
@@ -861,7 +842,7 @@ function resetAudioPlayer() {
 }
 
 /* ==========================================================================
-   05. FEATURE MODULES (세계명소 갤러리)
+   05. FEATURE MODULES (세계명소 갤러리 & SVG 국기 지원)
    ========================================================================== */
 function playDingDongSound() {
     try {
@@ -869,7 +850,6 @@ function playDingDongSound() {
         if (!AudioCtx) return;
         const ctx = new AudioCtx();
 
-        // 1음: 솔 (784Hz)
         const osc1 = ctx.createOscillator();
         const gain1 = ctx.createGain();
         osc1.type = 'sine';
@@ -881,7 +861,6 @@ function playDingDongSound() {
         osc1.start(ctx.currentTime);
         osc1.stop(ctx.currentTime + 0.35);
 
-        // 2음: 도 (523Hz)
         const osc2 = ctx.createOscillator();
         const gain2 = ctx.createGain();
         osc2.type = 'sine';
@@ -892,9 +871,7 @@ function playDingDongSound() {
         gain2.connect(ctx.destination);
         osc2.start(ctx.currentTime + 0.15);
         osc2.stop(ctx.currentTime + 0.65);
-    } catch (e) {
-        console.warn("효과음 재생 예외:", e);
-    }
+    } catch (e) {}
 }
 
 function renderLandmarkGallery() {
@@ -909,9 +886,12 @@ function renderLandmarkGallery() {
 
         card.innerHTML = `
             <div class="landmark-thumb-box">
-                <img src="${item.img}" alt="${item.name}" onerror="this.src='./assets/images/default.jpg'">
+                <img src="${encodeURI(item.img)}" alt="${item.name}" onerror="this.src='./assets/images/default.jpg'">
             </div>
-            <span class="landmark-label">${item.name}</span>
+            <span class="landmark-label">
+                <img src="https://flagcdn.com/20x15/${item.code}.png" class="flag-icon" alt="${item.country}">
+                ${item.name}
+            </span>
         `;
         grid.appendChild(card);
     });
@@ -927,8 +907,13 @@ function openLandmarkDetail(index) {
     const titleEl = document.getElementById('modal-landmark-title');
     const descEl = document.getElementById('modal-landmark-desc');
 
-    if (imgEl) imgEl.src = item.img;
-    if (titleEl) titleEl.innerText = item.name;
+    if (imgEl) imgEl.src = encodeURI(item.img);
+    if (titleEl) {
+        titleEl.innerHTML = `
+            <img src="https://flagcdn.com/24x18/${item.code}.png" class="flag-icon modal-flag" alt="${item.country}">
+            ${item.country} · ${item.name}
+        `;
+    }
     if (descEl) descEl.innerText = item.desc;
 
     const modal = document.getElementById('landmark-modal');
@@ -951,7 +936,7 @@ let quizScore = 0;
 let quizCombo = 0;
 let currentInput = [];
 let quizTimerId = null;
-const TIME_LIMIT = 10;
+const TIME_LIMIT = 30;
 let timeLeft = TIME_LIMIT;
 let isProcessing = false;
 let isHintActive = false;
@@ -1067,10 +1052,6 @@ function getChosung(char) {
     return char;
 }
 
-function handleGoBack() {
-    handleBack();
-}
-
 function startLandmarkQuizGame() {
     quizScore = 0;
     quizCombo = 0;
@@ -1095,7 +1076,7 @@ function updateQuizNotice() {
     if (!timerHintNotice) return;
     const remainingLives = 3 - wrongAttempts;
     if (!isHintActive) {
-        timerHintNotice.innerHTML = `⏳ <span class="notice-highlight">10초</span> 후 초성 힌트가 열려요! (남은 기회: <span class="strike-highlight">${remainingLives}회</span>)`;
+        timerHintNotice.innerHTML = `⏳ <span class="notice-highlight">30초</span> 후 초성 힌트가 열려요! (남은 기회: <span class="strike-highlight">${remainingLives}회</span>)`;
     } else {
         timerHintNotice.innerHTML = `💡 초성 힌트를 참고해 맞혀보세요! (남은 기회: <span class="strike-highlight">${remainingLives}회</span>)`;
     }
@@ -1211,7 +1192,7 @@ function loadQuizQuestion() {
     if (stageIndicator) stageIndicator.textContent = `SUCCESS: ${solvedCount} / ${TARGET_SOLVED}`;
     
     if (landmarkImg) {
-        landmarkImg.src = current.img;
+        landmarkImg.src = encodeURI(current.img);
         const targetPos = current.pos || "bottom center";
         landmarkImg.style.objectPosition = targetPos;
 
@@ -1367,7 +1348,6 @@ function checkAnswer() {
         if (tmiCard) tmiCard.classList.add("show");
 
         setTimeout(() => {
-            // 사용자가 화면을 벗어났다면 실행 차단
             if (currentStep !== 'event-game') return;
 
             quizQueue.shift();
@@ -1386,7 +1366,7 @@ function checkAnswer() {
                     }
                 }, 550);
             }
-        }, 2400);
+        }, 2600);
 
     } else {
         wrongAttempts++;
@@ -1455,7 +1435,7 @@ function revealCorrectAnswerAndSkip(current) {
                 loadQuizQuestion();
             }
         }, 550);
-    }, 2600);
+    }, 3000);
 }
 
 function finishGame() {
@@ -1476,10 +1456,11 @@ function restartGame() {
 }
 
 /* ==========================================================================
-   07. ANALYTICS & ADMIN DASHBOARD (통계 추적 및 관리자 전용 대시보드)
+   07. ANALYTICS & 10-MINUTE SESSION IN/OUT TRACKER
    ========================================================================== */
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBQcFxHn6fFGbQn3Mmlw6rVyayNaXqOboF-SDIc4pgo3f36RJbf7lWET5usChbzBpi/exec";
 const ADMIN_PASSCODE = "!DxpR26";
+const SESSION_TIMEOUT_MS = 10 * 60 * 1000; // 10분 타임아웃
 
 let currentViewingContent = null;
 let viewStartTime = null;
@@ -1490,8 +1471,126 @@ let localStats = JSON.parse(localStorage.getItem('incheon_stats')) || {
     days: { "일":0, "월":0, "화":0, "수":0, "목":0, "금":0, "토":0 },
     hours: {},
     totalSessions: 0,
-    sessionDurations: []
+    sessionDurations: [],
+    sessionLogs: []
 };
+
+let sessionData = JSON.parse(localStorage.getItem('incheon_current_session')) || null;
+
+function initSessionTracker() {
+    const now = Date.now();
+    
+    if (sessionData) {
+        if (now - sessionData.lastActive > SESSION_TIMEOUT_MS) {
+            closeSession(sessionData.lastActive, "10분 타임아웃 자동 OUT");
+            startNewSession(now);
+        } else {
+            sessionData.lastActive = now;
+            localStorage.setItem('incheon_current_session', JSON.stringify(sessionData));
+        }
+    } else {
+        startNewSession(now);
+    }
+
+    const updateActivity = () => {
+        if (!sessionData) {
+            startNewSession(Date.now());
+            return;
+        }
+        const currentTime = Date.now();
+        if (currentTime - sessionData.lastActive > SESSION_TIMEOUT_MS) {
+            closeSession(sessionData.lastActive, "10분 타임아웃 자동 OUT");
+            startNewSession(currentTime);
+        } else {
+            sessionData.lastActive = currentTime;
+            localStorage.setItem('incheon_current_session', JSON.stringify(sessionData));
+        }
+    };
+
+    window.addEventListener('click', updateActivity, { passive: true });
+    window.addEventListener('touchstart', updateActivity, { passive: true });
+    window.addEventListener('scroll', updateActivity, { passive: true });
+}
+
+function startNewSession(startTime) {
+    localStats.totalSessions = (localStats.totalSessions || 0) + 1;
+    localStorage.setItem('incheon_stats', JSON.stringify(localStats));
+
+    sessionData = {
+        id: localStats.totalSessions,
+        inTime: startTime,
+        lastActive: startTime
+    };
+    localStorage.setItem('incheon_current_session', JSON.stringify(sessionData));
+
+    sendGoogleSheetLog({
+        type: "SESSION_IN",
+        contentName: `사용자 #${sessionData.id} 진입`,
+        duration: 0,
+        inTime: new Date(startTime).toLocaleString('ko-KR'),
+        outTime: "-"
+    });
+}
+
+function closeSession(endTime, reason) {
+    if (!sessionData) return;
+    const durSec = Math.max(1, Math.round((endTime - sessionData.inTime) / 1000));
+
+    if (!localStats.sessionLogs) localStats.sessionLogs = [];
+    localStats.sessionLogs.unshift({
+        id: sessionData.id,
+        inTime: new Date(sessionData.inTime).toLocaleTimeString('ko-KR'),
+        outTime: new Date(endTime).toLocaleTimeString('ko-KR'),
+        durationSec: durSec,
+        type: reason
+    });
+
+    if (localStats.sessionLogs.length > 50) localStats.sessionLogs.pop();
+
+    if (!localStats.sessionDurations) localStats.sessionDurations = [];
+    localStats.sessionDurations.push(durSec);
+    localStorage.setItem('incheon_stats', JSON.stringify(localStats));
+
+    sendGoogleSheetLog({
+        type: "SESSION_OUT",
+        contentName: `사용자 #${sessionData.id} 이탈 (${reason})`,
+        duration: durSec,
+        inTime: new Date(sessionData.inTime).toLocaleString('ko-KR'),
+        outTime: new Date(endTime).toLocaleString('ko-KR')
+    });
+
+    sessionData = null;
+    localStorage.removeItem('incheon_current_session');
+}
+
+function sendGoogleSheetLog(data) {
+    if (!GOOGLE_SCRIPT_URL || !GOOGLE_SCRIPT_URL.startsWith("http")) return;
+    const now = new Date();
+    const daysMap = ["일", "월", "화", "수", "목", "금", "토"];
+
+    const payload = JSON.stringify({
+        timestamp: now.toLocaleString('ko-KR'),
+        type: data.type || "VIEW",
+        contentName: data.contentName || "페이지",
+        duration: data.duration || 0,
+        inTime: data.inTime || "-",
+        outTime: data.outTime || "-",
+        dayOfWeek: daysMap[now.getDay()],
+        hour: now.getHours()
+    });
+
+    if (navigator.sendBeacon) {
+        const blob = new Blob([payload], { type: 'text/plain' });
+        navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
+    } else {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: payload
+        }).catch(() => {});
+    }
+}
 
 function finishCurrentViewing() {
     if (!currentViewingContent || !viewStartTime) return;
@@ -1518,24 +1617,27 @@ function finishCurrentViewing() {
         
         localStorage.setItem('incheon_stats', JSON.stringify(localStats));
 
-        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith("http")) {
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    timestamp: now.toLocaleString('ko-KR'),
-                    contentName: currentViewingContent,
-                    duration: durationSec,
-                    dayOfWeek: dayStr,
-                    hour: hourStr
-                })
-            }).catch(err => console.log("Google Sheets 연동 대기:", err));
-        }
+        sendGoogleSheetLog({
+            type: "CONTENT_VIEW",
+            contentName: currentViewingContent,
+            duration: durationSec
+        });
     }
     currentViewingContent = null;
     viewStartTime = null;
 }
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+        finishCurrentViewing();
+    } else if (document.visibilityState === 'visible') {
+        const now = Date.now();
+        if (sessionData && (now - sessionData.lastActive > SESSION_TIMEOUT_MS)) {
+            closeSession(sessionData.lastActive, "10분 타임아웃 자동 OUT");
+            startNewSession(now);
+        }
+    }
+});
 
 let adminTapCount = 0;
 let adminTapTimer = null;
@@ -1627,6 +1729,29 @@ function renderAdminDashboardData() {
         }
     }
 
+    const sessionLogBody = document.getElementById('stat-session-log-tbody');
+    if (sessionLogBody) {
+        sessionLogBody.innerHTML = '';
+        const logs = localStats.sessionLogs || [];
+        if (logs.length === 0) {
+            sessionLogBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">기록된 세션 로그 없음</td></tr>';
+        } else {
+            logs.forEach(log => {
+                const min = Math.floor(log.durationSec / 60);
+                const sec = log.durationSec % 60;
+                const durText = min > 0 ? `${min}분 ${sec}초` : `${sec}초`;
+                sessionLogBody.innerHTML += `
+                    <tr>
+                        <td>#${log.id}</td>
+                        <td>${log.inTime}</td>
+                        <td>${log.outTime}</td>
+                        <td><strong>${durText}</strong></td>
+                    </tr>
+                `;
+            });
+        }
+    }
+
     const dayList = document.getElementById('stat-day-list');
     if (dayList) {
         dayList.innerHTML = '';
@@ -1666,77 +1791,35 @@ function renderAdminDashboardData() {
 }
 
 function resetLocalStats() {
-    if (confirm("누적된 로컬 통계 데이터를 초기화하시겠습니까? (구글 시트 내용은 유지됩니다)")) {
+    if (confirm("누적된 로컬 통계 데이터를 초기화하시겠습니까? (구글 시트 데이터는 유지됩니다)")) {
         localStats = {
             hits: {},
             durations: {},
             days: { "일":0, "월":0, "화":0, "수":0, "목":0, "금":0, "토":0 },
             hours: {},
             totalSessions: 0,
-            sessionDurations: []
+            sessionDurations: [],
+            sessionLogs: []
         };
         localStorage.removeItem('incheon_stats');
         renderAdminDashboardData();
     }
 }
 
-// 웹앱 전체 세션 체류 시간 감지 트래커
-let sessionStartTime = Date.now();
-let isSessionSent = false;
-
-function recordSessionExit() {
-    if (isSessionSent) return;
-    const totalDurationSec = Math.round((Date.now() - sessionStartTime) / 1000);
-    
-    if (totalDurationSec >= 3) {
-        isSessionSent = true;
-        const now = new Date();
-        const daysMap = ["일", "월", "화", "수", "목", "금", "토"];
-
-        const payload = JSON.stringify({
-            timestamp: now.toLocaleString('ko-KR'),
-            type: "SESSION_EXIT",
-            contentName: "웹앱 총 체류시간",
-            duration: totalDurationSec,
-            dayOfWeek: daysMap[now.getDay()],
-            hour: now.getHours()
-        });
-
-        let stats = JSON.parse(localStorage.getItem('incheon_stats')) || {};
-        stats.totalSessions = (stats.totalSessions || 0) + 1;
-        stats.sessionDurations = stats.sessionDurations || [];
-        stats.sessionDurations.push(totalDurationSec);
-        localStorage.setItem('incheon_stats', JSON.stringify(stats));
-
-        if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith("http")) {
-            if (navigator.sendBeacon) {
-                const blob = new Blob([payload], { type: 'text/plain' });
-                navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
-            } else {
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    keepalive: true,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: payload
-                });
-            }
-        }
-    }
-}
-
-window.addEventListener('pagehide', recordSessionExit);
-window.addEventListener('beforeunload', recordSessionExit);
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-        recordSessionExit();
-    }
-});
-
 /* ==========================================================================
-   08. INITIALIZATION (DOM 리스너 초기 바인딩)
+   08. INITIALIZATION
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+    initSessionTracker();
+
+    // 1회용 비행기 착륙 모션 종료 리스너 (홈 복귀 시 재실행 차단)
+    const header = document.querySelector('.content-header');
+    if (header) {
+        header.addEventListener('animationend', () => {
+            header.classList.remove('fly-in');
+        }, { once: true });
+    }
+
     const audio = document.getElementById('target-audio');
     const currentTimeEl = document.getElementById('audio-current-time');
     const durationEl = document.getElementById('audio-duration');
