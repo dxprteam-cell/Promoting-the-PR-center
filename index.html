@@ -592,4 +592,24 @@
     <!-- 스크립트 연결 -->
     <script src="script.js"></script>
 </body>
+<!-- ================================================================= -->
+<!-- ★ 상세 미디어(사진/영상) 전체화면 확대 팝업 라이트박스 -->
+<!-- ================================================================= -->
+<div id="media-zoom-modal" class="media-zoom-modal" style="display: none;">
+    <!-- 어두운 배경 터치 시 닫기 -->
+    <div class="media-zoom-backdrop" onclick="closeMediaZoomModal()"></div>
+    
+    <div class="media-zoom-content">
+        <!-- 닫기 버튼 -->
+        <button class="zoom-close-btn" onclick="closeMediaZoomModal()" title="닫기">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- 확대 이미지 영역 -->
+        <img id="zoom-modal-img" src="" alt="확대 이미지" style="display: none;">
+
+        <!-- 확대 동영상 영역 -->
+        <video id="zoom-modal-video" controls playsinline style="display: none;"></video>
+    </div>
+</div>
 </html>

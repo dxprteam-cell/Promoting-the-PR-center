@@ -618,10 +618,6 @@ html, body {
     white-space: pre-line;
     word-break: keep-all;
 }
-.depth-description.font-compact {
-    font-size: 0.82rem;
-    line-height: 1.5;
-}
 
 /* 브릿지/홍보관 등 오디오 바 숨김 */
 #general-depth-body.no-audio .audio-player-zone {
@@ -1639,4 +1635,89 @@ html, body {
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
+}
+/* ==========================================================================
+   상세 미디어 클릭 시 전체화면 확대 라이트박스
+   ========================================================================== */
+.media-zoom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20000; /* 최상단 레이어 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 16px;
+}
+
+/* 짙은 암전 배경 및 블러 효과 */
+.media-zoom-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.media-zoom-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 95vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: zoomModalIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+/* 닫기 (X) 버튼 */
+.zoom-close-btn {
+    position: absolute;
+    top: -46px;
+    right: 0px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.zoom-close-btn:active {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* 확대 이미지 & 비디오: 비율 유지 및 화면 맞춤 */
+#zoom-modal-img,
+#zoom-modal-video {
+    max-width: 100%;
+    max-height: 82vh;
+    object-fit: contain; /* 글자가 잘리지 않도록 전체 비율 유지 */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    background: #000;
+}
+
+/* 클릭 가능한 미디어 박스에 돋보기 마우스 포인터 표시 */
+.depth-media-box img,
+.depth-media-box video {
+    cursor: zoom-in;
+}
+
+@keyframes zoomModalIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }

@@ -43,8 +43,13 @@ const finalDetailData = {
         desc: "4단계 건설사업은 제2여객터미널과 교통센터 및 주차 시설 확장, 제4활주로와 고속탈출유도로 건설 및 T2 진입도로와 내부연결도로 확충 등이 해당되며, 2024년 12월 3일 완성되었습니다."
     },
 
-    // 1-2) 친환경 에너지 공항 (동영상 단일화 및 3뎁스 신설 4종 반영)
+    // 1-2) 친환경 에너지 공항 서브메뉴
     "Green Innovation": {
+        video: './assets/videos/eco/green_innovation.mp4',
+        audio: './assets/audios/eco/green_innovation.mp3',
+        desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
+    },
+    "인천공항 녹색혁신": {
         video: './assets/videos/eco/green_innovation.mp4',
         audio: './assets/audios/eco/green_innovation.mp3',
         desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
@@ -155,14 +160,14 @@ const finalDetailData = {
         ],
         desc: [
             "이 곳 브릿지에서는 1단계부터 4단계까지의 단계별 건설 사업을 권민호 작가의 드로잉 작품으로 만나보실 수 있습니다. \n첫 번째 작품은 인천공항의 1단계 건설 사업을 담고 있습니다. 중앙에 위치한 거대한 두 개의 크레인이 인천공항의 심볼을 바다 위로 올리고 있는 모습이 굉장히 인상적인데요, 드넓은 바다를 매립하여 건설한 인천공항을 상징적으로 표현한 것입니다. 그리고 우측에 보이는 제비는 예로부터 보라색 제비가 많이 산다고해서 자연도라고도 불렸던 영종도의 특징을 나타낸 것입니다. 또한 인천공항의 초기 명칭인 <수도권신국제공항> 글자도 보실 수 있으며 개항 후 첫 번째로 착륙한 아시아나 항공기도 확인하실 수 있습니다.",
-            "다음은 2단계 건설 사업에 대한 작품입니다. 2단계 건설 사업에는 탑승동과 계류장 관제탑, 제3활주로 건설이 해당됩니다. 중앙에는 계류장 관제탑이 위치해 있으며, 상단의 A380과 같은 초대형 항공기를 수용할 수 있도록 4,000미터급의 활주로를 건설하였습니다. 또한 좌측에는 당시 제3활주로 건설을 기념하기 위해 개최된 여성골퍼 장타대회의 모습도 나타나있습니다.여성 골퍼가 친 골프공이 포물선을 그리고 거기에 숫자가 나란히 적혀있는데요, 이 숫자에는 각각 의미가 담겨있습니다. 먼저 숫자 1번은 세계공항서비스평가 1위의 시작을 의미하며, 110번과 122번은 A380기종이 접현 가능한 게이트 번호이고, 515번은 장타대회 최고기록 야드를 뜻합니다. 그리고 숫자 4,000번은 제3활주로의 길이를 뜻하고,\n67번은 1터미널에서 탑승동까지의 수하물 처리 시스템 길이인 67km를 의미하며 30번은 탑승동의 게이트 개수를 뜻합니다.",
+            "다음은 2단계 건설 사업에 대한 작품입니다. 2단계 건설 사업에는 탑승동과 계류장 관제탑, 제3활주로 건설이 해당됩니다. 중앙에는 계류장 관제탑이 위치해 있으며, 상단의 A380과 같은 초대형 항공기를 수용할 수 있도록 4,000미터급의 활주로를 건설하였습니다. 또한 좌측에는 당시 제3활주로 건설을 기념하기 위해 개최된 여성골퍼 장타대회의 모습도 나타나있습니다. 여성 골퍼가 친 골프공이 포물선을 그리고 거기에 숫자가 나란히 적혀있는데요, 이 숫자에는 각각 의미가 담겨있습니다.  먼저 숫자 1번은 세계공항서비스평가 \n1위의 시작을 의미하며, 110번과 122번은 A380기종이 접현 가능한 게이트 번호이고, 515번은 장타대회 최고기록 야드를 뜻합니다. 그리고 숫자 4,000번은 제3활주로의 길이를 뜻하고, 67번은 1터미널에서 탑승동까지의 수하물 처리 시스템 길이인 67km를 의미하며 30번은 탑승동의 게이트 개수를 뜻합니다.",
             "이 작품은 3단계 건설 사업을 담고 있습니다. 제2여객터미널의 모습과 주요 컨셉인 그린, 아트, 스마트를 표현하고 있습니다. 먼저 중앙에는 2터미널 곳곳에서 볼 수 있는 친환경적인 조경이 위치해있고 원 안에는 터미널 내에 전시되어 있는 예술작품들이 담겨있습니다. 또한 하단에는 인공지능 로봇인 '에어스타'와 2터미널에 처음 도입된 원형 보안검색대를 함께 확인하실 수 있습니다.",
             "마지막 작품은 제2여객터미널의 확장과 제4활주로 신설이 포함된 4단계 건설 사업에 대한 내용입니다. 인천공항의 주변 지역을 아우르는 융복합 문화산업 벨트 구축을 위한 허브공항으로서의 목표가 담겨있습니다. 먼저 문화 예술 산업을 중심으로 한 문화·네트워크 허브로서 좌·우측에 테마파크와 예술 조각상 등이 나타나있습니다. 또한 좌측 하단에는 디지털 혁신을 통한 미래공항의 모습으로 터널형 보안 검색기와 자율주행차량을 확인하실 수 있습니다."
         ]
     }
 };
 
-// 2) 세계명소 18종 마스터 데이터 (국가 코드 및 국가명 포함)
+// 2) 세계명소 18종 마스터 데이터
 const LANDMARK_ITEMS = [
     { id: 1, country: "대한민국", code: "kr", name: "경복궁", img: "./assets/images/landmarks/1_경복궁.jpg", desc: "1395년 태조 이성계에 의해 창건된 조선 왕조의 법궁으로, 근정전과 경회루가 아름다운 대한민국의 대표 궁궐입니다." },
     { id: 2, country: "대한민국", code: "kr", name: "성산일출봉", img: "./assets/images/landmarks/2_성산일출봉.jpg", desc: "제주도 동쪽에 우뚝 솟은 해안 화산체로, 유네스코 세계자연유산으로 등재된 대한민국 최고의 일출 명소입니다." },
@@ -213,8 +218,8 @@ const CHOSUNG_LIST = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ
    03. ROUTING & SCREEN CONTROLLER
    ========================================================================== */
 function hideAllSubViews() {
-    const modal = document.getElementById('landmark-modal');
-    if (modal) modal.style.display = 'none';
+    closeLandmarkModal();
+    closeMediaZoomModal();
 
     const ids = [
         'masterplan-sub-menu',
@@ -348,6 +353,8 @@ function openDepth(menuId) {
             if (depthBody) {
                 depthBody.classList.add('no-audio');
             }
+            const audioZone = document.querySelector('.audio-player-zone');
+            if (audioZone) audioZone.style.display = 'none';
 
             setupMediaView(data);
             setupDescView(data.desc);
@@ -416,6 +423,7 @@ function openFinalDetail(detailName) {
     resetAudioPlayer();
     hideAllSubViews();
 
+    // ★ 오디오 숨김 해제 및 오디오 플레이어 UI 보장
     const depthBody = document.getElementById('general-depth-body');
     if (depthBody) {
         depthBody.classList.remove('no-audio');
@@ -432,11 +440,14 @@ function openFinalDetail(detailName) {
         setupMediaView(data);
         setupDescView(data.desc);
 
+        // ★ 오디오 소스 설정 및 재로딩
         const firstAudio = Array.isArray(data.audio) ? data.audio[0] : (data.audio || '');
         const audioEl = document.getElementById('target-audio');
         if (audioEl) {
             audioEl.src = encodeURI(firstAudio);
-            if (firstAudio) audioEl.load();
+            if (firstAudio) {
+                audioEl.load();
+            }
         }
 
         const pageTitle = Array.isArray(data.title) ? data.title[0] : (data.title || detailName);
@@ -447,6 +458,14 @@ function openFinalDetail(detailName) {
 }
 
 function handleBack() {
+    // 1순위: 확대 모달이 열려 있다면 뷰어만 닫고 유지 (음성 계속 재생)
+    const mediaZoomModal = document.getElementById('media-zoom-modal');
+    if (mediaZoomModal && mediaZoomModal.style.display === 'flex') {
+        closeMediaZoomModal();
+        return;
+    }
+
+    // 2순위: 세계명소 모달 닫기
     const modal = document.getElementById('landmark-modal');
     if (modal && modal.style.display === 'flex') {
         closeLandmarkModal();
@@ -579,7 +598,7 @@ function closeToHome() {
 }
 
 /* ==========================================================================
-   04. MEDIA & AUDIO CONTROLLER
+   04. MEDIA & AUDIO CONTROLLER (비디오 컨트롤 바 복구 및 확대 연동)
    ========================================================================== */
 function setupMediaView(data) {
     const targetImgEl = document.getElementById('target-img');
@@ -591,13 +610,22 @@ function setupMediaView(data) {
         if (sliderContainerEl) sliderContainerEl.style.display = 'none';
         if (targetVideoEl) {
             targetVideoEl.style.display = 'block';
-            targetVideoEl.muted = true;
+            targetVideoEl.controls = true; // ★ 일시정지/재생 컨트롤 바 복구
+            targetVideoEl.muted = true;    // ★ 음성안내 충돌 방지 및 모바일 자동재생 보장
             targetVideoEl.setAttribute('muted', '');
             targetVideoEl.setAttribute('playsinline', '');
             targetVideoEl.setAttribute('webkit-playsinline', '');
             targetVideoEl.src = encodeURI(data.video);
             targetVideoEl.load();
-            targetVideoEl.play().catch(e => console.log("단일 비디오 자동재생 대기:", e));
+            targetVideoEl.play().catch(e => console.log("비디오 재생 권한 대기:", e));
+
+            // 클릭 시 라이트박스 확대 (단, 컨트롤 바 자체 터치는 제외)
+            targetVideoEl.onclick = function(e) {
+                // 상단 여백 클릭 시 확대
+                if (e.offsetY < (targetVideoEl.clientHeight - 48)) {
+                    openMediaZoomModal('video', this.currentSrc || this.src);
+                }
+            };
         }
     } 
     else if (Array.isArray(data.media)) {
@@ -624,6 +652,9 @@ function setupMediaView(data) {
         if (targetImgEl) {
             targetImgEl.style.display = 'block';
             targetImgEl.src = encodeURI(data.img || '');
+            targetImgEl.onclick = function() {
+                if (this.src) openMediaZoomModal('image', this.src);
+            };
         }
     }
 }
@@ -639,6 +670,7 @@ function updateMixedSlideView() {
         if (sliderImg) sliderImg.style.display = 'none';
         if (sliderVideo) {
             sliderVideo.style.display = 'block';
+            sliderVideo.controls = true; // ★ 컨트롤 바 활성화
             sliderVideo.setAttribute('playsinline', '');
             sliderVideo.setAttribute('webkit-playsinline', '');
 
@@ -649,47 +681,34 @@ function updateMixedSlideView() {
                 sliderVideo.load();
             }
 
-            // 브릿지 전용 비디오: 수동 재생 제어
             if (activeMenuId === 'Bridge' || currentItem.src.includes('bridge')) {
-                sliderVideo.controls = true;
                 sliderVideo.muted = false;
                 sliderVideo.removeAttribute('muted');
                 sliderVideo.pause();
-                sliderVideo.oncanplay = null;
-                
-                sliderVideo.addEventListener('loadeddata', () => {
-                    sliderVideo.currentTime = 0;
-                }, { once: true });
             } else {
-                sliderVideo.controls = false;
                 sliderVideo.muted = true;
                 sliderVideo.setAttribute('muted', '');
-                
-                const startPlay = () => {
-                    sliderVideo.muted = true;
-                    sliderVideo.play().catch(e => console.warn("슬라이더 자동재생 대기:", e));
-                };
-
-                if (sliderVideo.readyState >= 2) {
-                    startPlay();
-                } else {
-                    sliderVideo.oncanplay = () => {
-                        startPlay();
-                        sliderVideo.oncanplay = null;
-                    };
-                }
+                sliderVideo.play().catch(e => console.warn("슬라이더 자동재생 대기:", e));
             }
+
+            sliderVideo.onclick = function(e) {
+                if (e.offsetY < (sliderVideo.clientHeight - 48)) {
+                    openMediaZoomModal('video', this.currentSrc || this.src);
+                }
+            };
         }
     } else {
         if (sliderVideo) {
             sliderVideo.pause();
             sliderVideo.currentTime = 0;
-            sliderVideo.oncanplay = null;
             sliderVideo.style.display = 'none';
         }
         if (sliderImg) {
             sliderImg.style.display = 'block';
             sliderImg.src = encodeURI(currentItem.src);
+            sliderImg.onclick = function() {
+                if (this.src) openMediaZoomModal('image', this.src);
+            };
         }
     }
 
@@ -742,15 +761,10 @@ function updateDescView() {
     }
 
     const descElem = document.getElementById('target-desc');
-    if (descElem && currentDescArray[currentDescIdx]) {
-        descElem.innerText = currentDescArray[currentDescIdx];
-
-        if (activeMenuId === 'Bridge' && currentDescIdx === 1) {
-            descElem.classList.add('font-compact');
-        } else {
-            descElem.classList.remove('font-compact');
-        }
-    }
+if (descElem && currentDescArray[currentDescIdx]) {
+    descElem.innerText = currentDescArray[currentDescIdx];
+    descElem.classList.remove('font-compact');
+}
 
     const titleElem = document.getElementById('target-title');
     if (titleElem && currentDetailData) {
@@ -842,7 +856,55 @@ function resetAudioPlayer() {
 }
 
 /* ==========================================================================
-   05. FEATURE MODULES (세계명소 갤러리 & SVG 국기 지원)
+   05. MEDIA ZOOM VIEWER (확대 뷰어 모달 - 음성 재생 유지)
+   ========================================================================== */
+function openMediaZoomModal(type, src) {
+    if (!src) return;
+
+    const modal = document.getElementById('media-zoom-modal');
+    const zoomImg = document.getElementById('zoom-modal-img');
+    const zoomVideo = document.getElementById('zoom-modal-video');
+    if (!modal) return;
+
+    if (type === 'image') {
+        if (zoomVideo) {
+            zoomVideo.pause();
+            zoomVideo.style.display = 'none';
+        }
+        if (zoomImg) {
+            zoomImg.src = src;
+            zoomImg.style.display = 'block';
+        }
+    } else if (type === 'video') {
+        if (zoomImg) zoomImg.style.display = 'none';
+        if (zoomVideo) {
+            zoomVideo.src = src;
+            zoomVideo.controls = true;
+            zoomVideo.muted = true; // 음성 안내와 사운드 중첩 방지
+            zoomVideo.style.display = 'block';
+            zoomVideo.play().catch(() => {});
+        }
+    }
+
+    modal.style.display = 'flex';
+}
+
+function closeMediaZoomModal() {
+    const modal = document.getElementById('media-zoom-modal');
+    const zoomVideo = document.getElementById('zoom-modal-video');
+    
+    if (zoomVideo) {
+        zoomVideo.pause();
+        zoomVideo.src = '';
+    }
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    // ※ target-audio(음성안내)는 건드리지 않고 그대로 재생 유지
+}
+
+/* ==========================================================================
+   06. FEATURE MODULES (세계명소 갤러리)
    ========================================================================== */
 function playDingDongSound() {
     try {
@@ -926,7 +988,7 @@ function closeLandmarkModal() {
 }
 
 /* ==========================================================================
-   06. FEATURE MODULES (세계 랜드마크 탐험 퀴즈 엔진)
+   07. FEATURE MODULES (세계 랜드마크 탐험 퀴즈 엔진)
    ========================================================================== */
 let quizQueue = [];
 const TARGET_SOLVED = 5;
@@ -1456,11 +1518,11 @@ function restartGame() {
 }
 
 /* ==========================================================================
-   07. ANALYTICS & 10-MINUTE SESSION IN/OUT TRACKER
+   08. ANALYTICS & 10-MINUTE SESSION IN/OUT TRACKER
    ========================================================================== */
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBQcFxHn6fFGbQn3Mmlw6rVyayNaXqOboF-SDIc4pgo3f36RJbf7lWET5usChbzBpi/exec";
 const ADMIN_PASSCODE = "!DxpR26";
-const SESSION_TIMEOUT_MS = 10 * 60 * 1000; // 10분 타임아웃
+const SESSION_TIMEOUT_MS = 10 * 60 * 1000;
 
 let currentViewingContent = null;
 let viewStartTime = null;
@@ -1807,12 +1869,11 @@ function resetLocalStats() {
 }
 
 /* ==========================================================================
-   08. INITIALIZATION
+   09. INITIALIZATION
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     initSessionTracker();
 
-    // 1회용 비행기 착륙 모션 종료 리스너 (홈 복귀 시 재실행 차단)
     const header = document.querySelector('.content-header');
     if (header) {
         header.addEventListener('animationend', () => {
