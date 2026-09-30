@@ -455,9 +455,13 @@ html, body {
 
 .depth-header {
     width: 100%;
-    margin-bottom: 16px;
-    z-index: 10;
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative; /* 기준점 설정 */
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 24px;
 }
 
 .back-btn {
@@ -640,6 +644,7 @@ html, body {
 }
 
 .sub-menu-header {
+    width: 100%;
     text-align: center;
     margin-bottom: 16px;
 }
@@ -783,17 +788,26 @@ html, body {
 }
 
 .landmark-label {
-    margin-top: 5px;
-    color: var(--text-main);
-    font-size: 0.72rem;
-    font-weight: 600;
+    margin-top: 4px !important;
+    margin-bottom: 2px !important;
+    color: var(--text-main, #0A223C);
+    font-size: 0.7rem !important;
+    font-weight: 700;
+    
+    /* ★ [핵심] 국기 이모지와 글자를 한 줄 정중앙으로 완벽 정렬 */
+    display: flex !important;
+    justify-content: center !important; /* 좌우 가로 정중앙 */
+    align-items: center !important;     /* 상하 높이 수직 정중앙 */
+    gap: 4px !important;                /* 국기와 글자 사이 자연스러운 간격 */
+    
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 100%;
+    width: 96px !important;             /* 사진 박스 너비와 일치 */
+    line-height: 1.15;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95);
 }
-
 /* 명소 모달 창 */
 .landmark-modal {
     position: fixed;
