@@ -19,7 +19,7 @@ const finalDetailData = {
     // 1-1) 마스터플랜 ➔ 단계별 건설사업 5종
     "부지 조성": {
         img: './assets/images/construction/land_setup.jpg',
-        audio: './assets/audios/eco/green_mobility.mp3',
+        audio: './assets/audios/masterplan/land_setup.mp3',
         desc: `1990년 6월, 공항 건설을 위해 다양한 후보지가 거론되었고, 항공기의 안전운항과 소음피해, 도심과의 접근성을 고려하여 영종도가 신공항부지로 선정되었습니다. \n신공항부지는 영종도, 용유도, 신불도, 삼목도 네 개의 섬 사이의 바다를 메워 조성되었으며, 총 넓이는 1700만평입니다.`
     },
     "1단계 건설사업": {
@@ -66,7 +66,7 @@ const finalDetailData = {
     },
     "생태계와 기후변화 대응": {
         video: './assets/videos/eco/eco_climate.mp4',
-        audio: './assets/audios/eco/eco_climate.mp3',
+        audio: './assets/audios/masterplan/phase3..mp3',
         desc: `생태습지를 조성하고 생태환경을 연결하는 등 체계적인 녹지 관리를 통해 기후변화에 대응하고 생물 다양성을 보전하고 있으며, 기후위기에 선제적으로 대응하기 위해 과학적인 위험 평가와 체계적인 대응 로드맵을 수립하고 있습니다.`
     },
     "친환경 연료 도입": {
