@@ -787,30 +787,59 @@ function formatTime(seconds) {
     return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
 }
 
+/**
+ * 음성 재생 / 일시정지 제어 함수 (모바일 방어형 & 단어 규격 통일)
+ */
 function toggleAudio() {
     const audio = document.getElementById('target-audio');
-    const icon = document.getElementById('audio-icon');
-    const text = document.getElementById('audio-btn-text');
     const btn = document.getElementById('audio-toggle-btn');
+    const icon = document.getElementById('audio-icon') || document.getElementById('audio-btn-icon');
+    const text = document.getElementById('audio-btn-text');
+    const waveContainer = document.getElementById('audio-wave-container');
+    const waveAnimation = document.querySelector('.sound-wave');
 
-    if (!audio) return;
-    if (!audio.src || audio.src.endsWith('/') || audio.src.endsWith(window.location.href)) {
+    if (!audio || !btn) return;
+
+    // 음원 파일 경로가 없거나 비어있는 경우 방어
+    if (!audio.src || audio.src === '' || audio.src.endsWith('/') || audio.src.endsWith(window.location.href)) {
         alert("해당 항목의 음성 안내는 준비 중입니다.");
         return;
     }
 
+    // 1) 정지 상태 -> 재생 시도
     if (audio.paused) {
-        if (audio.ended) audio.currentTime = 0;
-        audio.play().then(() => {
-            if (icon) icon.className = 'fa-solid fa-pause';
-            if (text) text.innerText = '일시 정지';
-            if (btn) btn.classList.add('playing');
-        }).catch(err => console.warn("오디오 재생 권한 대기:", err));
-    } else {
+        if (audio.ended) {
+            audio.currentTime = 0;
+        }
+
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                if (icon) icon.className = 'fa-solid fa-pause';
+                if (text) text.innerText = '일시 정지';
+                btn.classList.add('playing');
+                if (waveContainer) waveContainer.style.display = 'flex';
+                if (waveAnimation) waveAnimation.classList.add('active');
+            }).catch(err => {
+                console.warn("오디오 재생 오류:", err);
+                alert("해당 항목의 음성 안내는 준비 중입니다.");
+                
+                // 모바일 차단 시 버튼 상태 복구
+                if (icon) icon.className = 'fa-solid fa-play';
+                if (text) text.innerText = '음성 안내';
+                btn.classList.remove('playing');
+                if (waveContainer) waveContainer.style.display = 'none';
+                if (waveAnimation) waveAnimation.classList.remove('active');
+            });
+        }
+    } 
+    // 2) 재생 중인 상태 -> 일시정지
+    else {
         audio.pause();
         if (icon) icon.className = 'fa-solid fa-play';
         if (text) text.innerText = '음성 안내';
-        if (btn) btn.classList.remove('playing');
+        btn.classList.remove('playing');
+        if (waveAnimation) waveAnimation.classList.remove('active');
     }
 }
 

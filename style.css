@@ -536,6 +536,25 @@ html, body {
     width: 100%;
     margin: 16px 0;
     flex-shrink: 0;
+    position: relative !important;
+    z-index: 50 !important; /* 상단 미디어 박스보다 위로 강제 배치 */
+    pointer-events: auto !important;
+}
+
+#audio-toggle-btn {
+    position: relative !important;
+    z-index: 51 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important; /* 모바일 더블탭 딜레이 및 씹힘 방지 */
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 비디오/슬라이더 영역이 아래 버튼 영역을 침범하지 못하도록 제어 */
+.depth-media-box {
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
 }
 
 .audio-control-btn {
@@ -631,6 +650,8 @@ html, body {
 #general-depth-body.no-audio .text-content-zone {
     margin-top: 16px;
 }
+
+
 
 /* ==========================================================================
    04. SUB-MENU LIST (2~3뎁스 목록)
