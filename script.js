@@ -66,7 +66,7 @@ const finalDetailData = {
     },
     "생태계와 기후변화 대응": {
         video: './assets/videos/eco/eco_climate.mp4',
-        audio: './assets/audios/masterplan/phase3.mp3',
+        audio: './assets/audios/eco/eco_climate.mp3',
         desc: `생태습지를 조성하고 생태환경을 연결하는 등 체계적인 녹지 관리를 통해 기후변화에 대응하고 생물 다양성을 보전하고 있으며, 기후위기에 선제적으로 대응하기 위해 과학적인 위험 평가와 체계적인 대응 로드맵을 수립하고 있습니다.`
     },
     "친환경 연료 도입": {
