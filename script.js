@@ -46,7 +46,7 @@ const finalDetailData = {
     // 1-2) 친환경 에너지 공항 서브메뉴
     "Green Innovation": {
         video: './assets/videos/eco/green_innovation.mp4',
-        audio: './assets/audios/eco/green_innovation.MP3',
+        audio: './assets/audios/eco/green_Innovation.MP3',
         desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
     },
 
