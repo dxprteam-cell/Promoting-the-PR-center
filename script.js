@@ -19,49 +19,49 @@ const finalDetailData = {
     // 1-1) 마스터플랜 ➔ 단계별 건설사업 5종
     "부지 조성": {
         img: './assets/images/construction/land_setup.jpg',
-        audio: './assets/audios/masterplan/land_setup.mp3',
+        audio: './assets/audios/masterplan/land_setup.MP3',
         desc: `1990년 6월, 공항 건설을 위해 다양한 후보지가 거론되었고, 항공기의 안전운항과 소음피해, 도심과의 접근성을 고려하여 영종도가 신공항부지로 선정되었습니다. \n신공항부지는 영종도, 용유도, 신불도, 삼목도 네 개의 섬 사이의 바다를 메워 조성되었으며, 총 넓이는 1700만평입니다.`
     },
     "1단계 건설사업": {
         img: './assets/images/construction/phase1.jpg',
-        audio: './assets/audios/masterplan/phase1.mp3',
+        audio: './assets/audios/masterplan/phase1.MP3',
         desc: "1단계 건설사업은 해상매립과 부지조성을 포함한 제1여객터미널과 제1교통센터, 주 관제탑, 첫 번째, 두 번째 활주로가 해당되며, 2001년 3월 29일에 개항했습니다."
     },
     "2단계 건설사업": {
         img: './assets/images/construction/phase2.jpg',
-        audio: './assets/audios/masterplan/phase2.mp3',
+        audio: './assets/audios/masterplan/phase2.MP3',
         desc: "2단계 건설사업은 탑승동과 제1계류장 관제탑, 제3활주로가 해당되며, 2008년 6월 20일에 오픈했습니다."
     },
     "3단계 건설사업": {
         img: './assets/images/construction/phase3.jpg',
-        audio: './assets/audios/masterplan/phase3.mp3',
+        audio: './assets/audios/masterplan/phase3.MP3',
         desc: "3단계 건설사업은 제 2여객터미널의 일부와 제 2교통센터, \n제 2계류장 관제탑과 공항 철도 연결 등이 해당되며, 2018년 1월 18일에 오픈했습니다."
     },
     "4단계 건설사업": {
         img: './assets/images/construction/phase4.jpg',
-        audio: './assets/audios/masterplan/phase4.mp3',
+        audio: './assets/audios/masterplan/phase4.MP3',
         desc: "4단계 건설사업은 제2여객터미널과 교통센터 및 주차 시설 확장, 제4활주로와 고속탈출유도로 건설 및 T2 진입도로와 내부연결도로 확충 등이 해당되며, 2024년 12월 3일 완성되었습니다."
     },
 
     // 1-2) 친환경 에너지 공항 서브메뉴
     "Green Innovation": {
         video: './assets/videos/eco/green_innovation.mp4',
-        audio: './assets/audios/eco/green_innovation.mp3',
+        audio: './assets/audios/eco/green_innovation.MP3',
         desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
     },
     "인천공항 녹색혁신": {
         video: './assets/videos/eco/green_innovation.mp4',
-        audio: './assets/audios/eco/green_innovation.mp3',
+        audio: './assets/audios/eco/green_innovation.MP3',
         desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
     },
     "태양광·지열 에너지": {
         video: './assets/videos/eco/solar_geo.mp4',
-        audio: './assets/audios/eco/solar_geo.mp3',
+        audio: './assets/audios/eco/solar_geo.MP3',
         desc: `태양광 구축을 통해 에너지 자립 RE100 달성에 기여하며, 민간투자를 통해 친환경 전력 생산을 늘려 환경 보호와 전기요금 절감 등을 도모하고 있습니다. 또한 제2여객터미널 지하에 있는 지열 우물을 조성하여 이를 히트펌프 시스템과 연계해 실내 냉/난방에 활용하고 있습니다.\n*RE100: 기업이 사용하는 전력의 100%를 재생에너지 전력으로 조달하겠다는 글로벌 이니셔티브(Renewable Electricity).`
     },
     "미래공항 에너지": {
         video: './assets/videos/eco/future_energy.mp4',
-        audio: './assets/audios/eco/future_energy.mp3',
+        audio: './assets/audios/eco/future_energy.MP3',
         desc: `연료전지 및 수소발전 등 공항산업에서 신재생에너지의 다각화를 위한 노력을 통해 RE100(2040) 조기 달성에 기여하고자 합니다. \n1.2MW용량의 연료전지를 선제도입하여 피크시간대 전력수요에 대응하기 위해 활용하고 있으며, 2040년 이후 수소항공기 도입에 대비해 수전해로 생산한 수소를 차량과 항공기에 활용하는 미래 전략을 구상하고 있습니다.`
     },
     "그린모빌리티 전환": {
@@ -88,12 +88,12 @@ const finalDetailData = {
     // 1-3) 스마트 AI 공항
     "공항에서 만나는 스마트 서비스": {
         video: './assets/videos/smart/shuttle.mp4',
-        audio: './assets/audios/smart/smart_shuttle.mp3',
+        audio: './assets/audios/smart/smart_shuttle.MP3',
         desc: "인천국제공항은 인공지능과 디지털 기술을 활용해 더욱 빠르고 편리한 공항 서비스를 제공하고 있습니다. 또한 생체인식 기반 스마트패스와 카트 로봇, 자율주행 모빌리티 등 디지털 기반 핵심 서비스를 도입해 정보 접근성을 높이고 여객의 편의를 최우선으로 하는 스마트 혁신공항으로 도약하고 있습니다."
     },
     "공항 밖, 손끝에서 시작되는 여정": {
         video: './assets/videos/smart/smartpass.mp4',
-        audio: './assets/audios/smart/smart_pass.mp3',
+        audio: './assets/audios/smart/smart_pass.MP3',
         desc: "인천국제공항 플랫폼을 활용해 비행의 첫걸음을 집에서도 준비할 수 있습니다. 인천공항+는 공항 이용객을 위한 공식 안내 앱으로 다양한 이용 정보를 제공합니다. 또한 안면 인식 기반 출국 심사 앱에 여권과 얼굴 정보를 미리 등록하면 전용 출국장을 통해 더 빠르게 출국할 수 있습니다. 뿐만 아니라 공항 밖 지정 장소에서 수하물을 미리 위탁하거나, 사전 체크인을 이용해 더욱 편리하게 출국할 수 있는 서비스도 제공하고 있습니다."
     },
 
@@ -113,7 +113,7 @@ const finalDetailData = {
     "Organic": {
         title: 'Aerograph3',
         video: './assets/videos/led/organic.mp4',
-        audio: './assets/audios/led/organic.mp3',
+        audio: './assets/audios/led/organic.MP3',
         desc: "인천공항의 저탄소·친환경 구현을 위해 실천 중인 에너지 경영의 데이터를 활용한 유기적 그래픽 형태입니다. 글로벌 메가 허브 환경 기반을 의미하는 항공화물 통계를 초록색 계열로 표현하였고, 국내선과 국제선의 데이터를 자연스럽게 변화시키고 확장하는 형태로 연출했습니다."
     },
 
@@ -153,10 +153,10 @@ const finalDetailData = {
     "Bridge": {
         title: ['1단계 건설사업', '2단계 건설사업', '3단계 건설사업', '4단계 건설사업'],
         media: [
-            { type: 'video', src: './assets/videos/bridge/bridge_01.mp4' },
-            { type: 'video', src: './assets/videos/bridge/bridge_02.mp4' },
-            { type: 'video', src: './assets/videos/bridge/bridge_03.mp4' },
-            { type: 'video', src: './assets/videos/bridge/bridge_04.mp4' }
+            { type: 'video', src: './assets/videos/bridge/bridge_01.MP4' },
+            { type: 'video', src: './assets/videos/bridge/bridge_02.MP4' },
+            { type: 'video', src: './assets/videos/bridge/bridge_03.MP4' },
+            { type: 'video', src: './assets/videos/bridge/bridge_04.MP4' }
         ],
         desc: [
             "이 곳 브릿지에서는 1단계부터 4단계까지의 단계별 건설 사업을 권민호 작가의 드로잉 작품으로 만나보실 수 있습니다. \n첫 번째 작품은 인천공항의 1단계 건설 사업을 담고 있습니다. 중앙에 위치한 거대한 두 개의 크레인이 인천공항의 심볼을 바다 위로 올리고 있는 모습이 굉장히 인상적인데요, 드넓은 바다를 매립하여 건설한 인천공항을 상징적으로 표현한 것입니다. 그리고 우측에 보이는 제비는 예로부터 보라색 제비가 많이 산다고해서 자연도라고도 불렸던 영종도의 특징을 나타낸 것입니다. 또한 인천공항의 초기 명칭인 <수도권신국제공항> 글자도 보실 수 있으며 개항 후 첫 번째로 착륙한 아시아나 항공기도 확인하실 수 있습니다.",

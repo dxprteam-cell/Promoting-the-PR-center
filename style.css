@@ -67,32 +67,25 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: transparent;
+    background-color: rgba(148, 163, 184, 0.28); /* 살짝 비치는 반투명 슬레이트 */
     border-radius: 10px;
     transition: background-color 0.25s ease;
 }
 
-/* PC 환경: 마우스 호버 시 부드러운 회색/포인트 컬러 노출 */
+/* 3. PC 환경: 마우스 호버 시 포인트 컬러 노출 */
 @media (hover: hover) and (pointer: fine) {
     *:hover::-webkit-scrollbar-thumb {
-        background-color: rgba(100, 116, 139, 0.35);
+        background-color: rgba(100, 116, 139, 0.45);
     }
     *:hover::-webkit-scrollbar-thumb:hover {
-        background-color: rgba(14, 165, 233, 0.7);
+        background-color: rgba(56, 189, 248, 0.7); /* 스카이블루 강조 */
     }
 }
 
-/* 모바일 터치 기기: 스크롤바 UI를 완전 차단하여 깔끔함 유지 (스크롤은 100% 정상 작동) */
-@media (hover: none) and (pointer: coarse) {
-    * {
-        -ms-overflow-style: none !important; /* IE, Edge */
-        scrollbar-width: none !important;    /* Firefox */
-    }
-    *::-webkit-scrollbar {
-        display: none !important;
-        width: 0 !important;
-        height: 0 !important;
-    }
+/* 4. 모바일 환경: 스크롤바를 억지로 없애지 않고 은은하게 노출 (Firefox / Edge 호환) */
+* {
+    scrollbar-width: thin; /* Firefox: 얇은 두께 */
+    scrollbar-color: rgba(148, 163, 184, 0.28) transparent; /* 은은한 색상 */
 }
 
 /* ==========================================================================
@@ -104,7 +97,6 @@ html, body {
     max-width: 480px;
     max-height: 820px;
     position: relative;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -115,6 +107,15 @@ html, body {
     background-repeat: no-repeat;
     border-radius: 24px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+    /* 👇 [핵심] 홈 화면에서도 글씨 확대 시 가로/세로 잘림 없이 스크롤 지원 */
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 홈 화면 어두운 배경에 맞춘 스크롤바 밝기 보정 */
+.welcome-screen::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.22);
 }
 
 .hidden-admin-trigger {
@@ -442,9 +443,13 @@ html, body {
     transition: background 0.3s ease;
     
     /* 👇 스크롤 허용 및 터치 관성 스크롤 복원 */
-    overflow-x: hidden !important;
+    overflow-x: auto !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
+}
+
+.depth-screen::-webkit-scrollbar-thumb {
+    background-color: rgba(71, 85, 105, 0.25);
 }
 
 .depth-screen.active {
@@ -460,7 +465,9 @@ html, body {
     position: relative; /* 기준점 설정 */
     padding: 0 10px;
     box-sizing: border-box;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    z-index: 10;
+    flex-shrink: 0; /* 내용이 길어져도 뒤로가기 바가 찌그러지지 않음 */
 }
 
 .back-btn {
