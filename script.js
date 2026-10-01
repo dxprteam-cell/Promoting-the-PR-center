@@ -35,7 +35,7 @@ const finalDetailData = {
     "3단계 건설사업": {
         img: './assets/images/construction/phase3.jpg',
         audio: './assets/audios/masterplan/phase3.MP3',
-        desc: "3단계 건설사업은 제 2여객터미널의 일부와 제 2교통센터, \n제 2계류장 관제탑과 공항 철도 연결 등이 해당되며, 2018년 1월 18일에 오픈했습니다."
+        desc: "3단계 건설사업은 제2여객터미널의 일부와 제2교통센터, 제2계류장 관제탑과 공항 철도 연결 등이 해당되며, 2018년 1월 18일에 오픈했습니다."
     },
     "4단계 건설사업": {
         img: './assets/images/construction/phase4.jpg',
@@ -49,7 +49,7 @@ const finalDetailData = {
         audio: './assets/audios/eco/green_innovation.MP3',
         desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
     },
-    
+
     "태양광·지열 에너지": {
         video: './assets/videos/eco/solar_geo.mp4',
         audio: './assets/audios/eco/solar_geo.MP3',
