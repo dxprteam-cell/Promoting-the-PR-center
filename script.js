@@ -6,14 +6,13 @@ let prevStep = 'home';
 let activeMenuId = null;
 let currentDetailData = null;
 
-// 슬라이더 및 본문 페이징 인덱스
 let currentSlideIdx = 0;
 let currentSlideArray = [];
 let currentDescIdx = 0;
 let currentDescArray = [];
 
 /* ==========================================================================
-   02. DATA SETS (콘텐츠 마스터 데이터 & 영문 표준화 매핑)
+   02. DATA SETS (콘텐츠 마스터 데이터)
    ========================================================================== */
 const finalDetailData = {
     // 1-1) 마스터플랜 ➔ 단계별 건설사업 5종
@@ -47,13 +46,12 @@ const finalDetailData = {
     "Green Innovation": {
         video: './assets/videos/eco/green_innovation.mp4',
         audio: './assets/audios/eco/green_Innovation.MP3',
-        desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 중심으로 친환경공항으로의 전환을 적극적으로 추진하고 있습니다.`
+        desc: `인천국제공항은 연간 1,700만 톤의 탄소를 배출하고 있으며, 2045년 탄소중립을 목표로 에너지 자립, 그린 모빌리티, 항공 탄소 저감, 생태공항 조성 등 4대 전략을 중심으로 친환경공항으로의 전환을 추진하고 있습니다.`
     },
-
     "태양광·지열 에너지": {
         video: './assets/videos/eco/solar_geo.mp4',
         audio: './assets/audios/eco/solar_geo.MP3',
-        desc: `태양광 구축을 통해 에너지 자립 RE100 달성에 기여하며, 민간투자를 통해 친환경 전력 생산을 늘려 환경 보호와 전기요금 절감 등을 도모하고 있습니다. 또한 제2여객터미널 지하에 있는 지열 우물을 조성하여 이를 히트펌프 시스템과 연계해 실내 냉/난방에 활용하고 있습니다.\n*RE100: 기업이 사용하는 전력의 100%를 재생에너지 전력으로 조달하겠다는 글로벌 이니셔티브(Renewable Electricity).`
+        desc: `태양광 구축을 통해 에너지 자립 RE100 달성에 기여하며, 민간투자를 통해 친환경 전력 생산을 늘려 환경 보호와 전기요금 절감 등을 도모하고 있습니다. 또한 제2여객터미널 지하에 지열 우물을 조성하여 이를 히트펌프 시스템과 연계해 실내 냉/난방에 활용하고 있습니다.\n*RE100: 기업이 사용하는 전력의 100%를 재생에너지 전력으로 조달하겠다는 글로벌 이니셔티브(Renewable Electricity).`
     },
     "미래공항 에너지": {
         video: './assets/videos/eco/future_energy.mp4',
@@ -142,7 +140,7 @@ const finalDetailData = {
     // 1-6) 하단 퀵메뉴
     "PR zone": {
         title: "홍보관",
-        img: './assets/images/bg_pr.jpg',
+        img: './assets/images/bg/bg_pr.jpg',
         audio: '',
         desc: "인천공항의 터미널 구조 및 여객 편의 인프라의 핵심 가이드라인을 알기 쉽게 소개합니다."
     },
@@ -156,7 +154,7 @@ const finalDetailData = {
         ],
         desc: [
             "이 곳 브릿지에서는 1단계부터 4단계까지의 단계별 건설 사업을 권민호 작가의 드로잉 작품으로 만나보실 수 있습니다. \n첫 번째 작품은 인천공항의 1단계 건설 사업을 담고 있습니다. 중앙에 위치한 거대한 두 개의 크레인이 인천공항의 심볼을 바다 위로 올리고 있는 모습이 굉장히 인상적인데요, 드넓은 바다를 매립하여 건설한 인천공항을 상징적으로 표현한 것입니다. 그리고 우측에 보이는 제비는 예로부터 보라색 제비가 많이 산다고해서 자연도라고도 불렸던 영종도의 특징을 나타낸 것입니다. 또한 인천공항의 초기 명칭인 <수도권신국제공항> 글자도 보실 수 있으며 개항 후 첫 번째로 착륙한 아시아나 항공기도 확인하실 수 있습니다.",
-            "다음은 2단계 건설 사업에 대한 작품입니다. 2단계 건설 사업에는 탑승동과 계류장 관제탑, 제3활주로 건설이 해당됩니다. 중앙에는 계류장 관제탑이 위치해 있으며, 상단의 A380과 같은 초대형 항공기를 수용할 수 있도록 4,000미터급의 활주로를 건설하였습니다. 또한 좌측에는 당시 제3활주로 건설을 기념하기 위해 개최된 여성골퍼 장타대회의 모습도 나타나있습니다. 여성 골퍼가 친 골프공이 포물선을 그리고 거기에 숫자가 나란히 적혀있는데요, 이 숫자에는 각각 의미가 담겨있습니다.  먼저 숫자 1번은 세계공항서비스평가 \n1위의 시작을 의미하며, 110번과 122번은 A380기종이 접현 가능한 게이트 번호이고, 515번은 장타대회 최고기록 야드를 뜻합니다. 그리고 숫자 4,000번은 제3활주로의 길이를 뜻하고, 67번은 1터미널에서 탑승동까지의 수하물 처리 시스템 길이인 67km를 의미하며 30번은 탑승동의 게이트 개수를 뜻합니다.",
+            "다음은 2단계 건설 사업에 대한 작품입니다. 2단계 건설 사업에는 탑승동과 계류장 관제탑, 제3활주로 건설이 해당됩니다. 중앙에는 계류장 관제탑이 위치해 있으며, 상단의 A380과 같은 초대형 항공기를 수용할 수 있도록 4,000미터급의 활주로를 건설하였습니다. 또한 좌측에는 당시 제3활주로 건설을 기념하기 위해 개최된 여성골퍼 장타대회의 모습도 나타나있습니다. 여성 골퍼가 친 골프공이 포물선을 그리고 거기에 숫자가 나란히 적혀있는데요, 이 숫자에는 각각 의미가 담겨있습니다. \n먼저 숫자 1번은 세계공항서비스평가 1위의 시작을 의미하며, 110번과 122번은 A380기종이 접현 가능한 게이트 번호이고, 515번은 장타대회 최고기록 야드를 뜻합니다. 그리고 숫자 4,000번은 제3활주로의 길이를 뜻하고, 67번은 1터미널에서 탑승동까지의 수하물 처리 시스템 길이인 67km를 의미하며 30번은 탑승동의 게이트 개수를 뜻합니다.",
             "이 작품은 3단계 건설 사업을 담고 있습니다. 제2여객터미널의 모습과 주요 컨셉인 그린, 아트, 스마트를 표현하고 있습니다. 먼저 중앙에는 2터미널 곳곳에서 볼 수 있는 친환경적인 조경이 위치해있고 원 안에는 터미널 내에 전시되어 있는 예술작품들이 담겨있습니다. 또한 하단에는 인공지능 로봇인 '에어스타'와 2터미널에 처음 도입된 원형 보안검색대를 함께 확인하실 수 있습니다.",
             "마지막 작품은 제2여객터미널의 확장과 제4활주로 신설이 포함된 4단계 건설 사업에 대한 내용입니다. 인천공항의 주변 지역을 아우르는 융복합 문화산업 벨트 구축을 위한 허브공항으로서의 목표가 담겨있습니다. 먼저 문화 예술 산업을 중심으로 한 문화·네트워크 허브로서 좌·우측에 테마파크와 예술 조각상 등이 나타나있습니다. 또한 좌측 하단에는 디지털 혁신을 통한 미래공항의 모습으로 터널형 보안 검색기와 자율주행차량을 확인하실 수 있습니다."
         ]
@@ -328,7 +326,6 @@ function openDepth(menuId) {
         return;
     }
     else {
-        // 하단 바 퀵메뉴 (PR zone, Bridge)
         prevStep = 'home';
         currentStep = 'detail';
         activeMenuId = menuId;
@@ -419,7 +416,6 @@ function openFinalDetail(detailName) {
     resetAudioPlayer();
     hideAllSubViews();
 
-    // ★ 오디오 숨김 해제 및 오디오 플레이어 UI 보장
     const depthBody = document.getElementById('general-depth-body');
     if (depthBody) {
         depthBody.classList.remove('no-audio');
@@ -436,7 +432,6 @@ function openFinalDetail(detailName) {
         setupMediaView(data);
         setupDescView(data.desc);
 
-        // ★ 오디오 소스 설정 및 재로딩
         const firstAudio = Array.isArray(data.audio) ? data.audio[0] : (data.audio || '');
         const audioEl = document.getElementById('target-audio');
         if (audioEl) {
@@ -454,14 +449,12 @@ function openFinalDetail(detailName) {
 }
 
 function handleBack() {
-    // 1순위: 확대 모달이 열려 있다면 뷰어만 닫고 유지 (음성 계속 재생)
     const mediaZoomModal = document.getElementById('media-zoom-modal');
     if (mediaZoomModal && mediaZoomModal.style.display === 'flex') {
         closeMediaZoomModal();
         return;
     }
 
-    // 2순위: 세계명소 모달 닫기
     const modal = document.getElementById('landmark-modal');
     if (modal && modal.style.display === 'flex') {
         closeLandmarkModal();
@@ -594,7 +587,7 @@ function closeToHome() {
 }
 
 /* ==========================================================================
-   04. MEDIA & AUDIO CONTROLLER (비디오 컨트롤 바 복구 및 확대 연동)
+   04. MEDIA & AUDIO CONTROLLER
    ========================================================================== */
 function setupMediaView(data) {
     const targetImgEl = document.getElementById('target-img');
@@ -606,8 +599,8 @@ function setupMediaView(data) {
         if (sliderContainerEl) sliderContainerEl.style.display = 'none';
         if (targetVideoEl) {
             targetVideoEl.style.display = 'block';
-            targetVideoEl.controls = true; // ★ 일시정지/재생 컨트롤 바 복구
-            targetVideoEl.muted = true;    // ★ 음성안내 충돌 방지 및 모바일 자동재생 보장
+            targetVideoEl.controls = true;
+            targetVideoEl.muted = true;
             targetVideoEl.setAttribute('muted', '');
             targetVideoEl.setAttribute('playsinline', '');
             targetVideoEl.setAttribute('webkit-playsinline', '');
@@ -615,9 +608,7 @@ function setupMediaView(data) {
             targetVideoEl.load();
             targetVideoEl.play().catch(e => console.log("비디오 재생 권한 대기:", e));
 
-            // 클릭 시 라이트박스 확대 (단, 컨트롤 바 자체 터치는 제외)
             targetVideoEl.onclick = function(e) {
-                // 상단 여백 클릭 시 확대
                 if (e.offsetY < (targetVideoEl.clientHeight - 48)) {
                     openMediaZoomModal('video', this.currentSrc || this.src);
                 }
@@ -655,6 +646,9 @@ function setupMediaView(data) {
     }
 }
 
+/**
+ * 슬라이드 뷰 갱신 (1, 2, 3, 4단계 모두 재생 버튼 클릭 시 음소거 해제 및 동시 재생)
+ */
 function updateMixedSlideView() {
     if (!currentSlideArray || currentSlideArray.length === 0) return;
     
@@ -666,7 +660,7 @@ function updateMixedSlideView() {
         if (sliderImg) sliderImg.style.display = 'none';
         if (sliderVideo) {
             sliderVideo.style.display = 'block';
-            sliderVideo.controls = true; // ★ 컨트롤 바 활성화
+            sliderVideo.controls = true;
             sliderVideo.setAttribute('playsinline', '');
             sliderVideo.setAttribute('webkit-playsinline', '');
 
@@ -677,15 +671,15 @@ function updateMixedSlideView() {
                 sliderVideo.load();
             }
 
-            if (activeMenuId === 'Bridge' || currentItem.src.includes('bridge')) {
+            // ★ 1, 2, 3, 4단계 진입 및 전환 시 항상 일시정지(대기) 상태 유지
+            sliderVideo.pause();
+
+            // ★ 화면 속 재생(▶) 버튼을 누르는 순간 음소거 완전 해제 & 음량 100% 동시 재생
+            sliderVideo.onplay = function() {
                 sliderVideo.muted = false;
                 sliderVideo.removeAttribute('muted');
-                sliderVideo.pause();
-            } else {
-                sliderVideo.muted = true;
-                sliderVideo.setAttribute('muted', '');
-                sliderVideo.play().catch(e => console.warn("슬라이더 자동재생 대기:", e));
-            }
+                sliderVideo.volume = 1.0;
+            };
 
             sliderVideo.onclick = function(e) {
                 if (e.offsetY < (sliderVideo.clientHeight - 48)) {
@@ -695,6 +689,7 @@ function updateMixedSlideView() {
         }
     } else {
         if (sliderVideo) {
+            sliderVideo.onplay = null;
             sliderVideo.pause();
             sliderVideo.currentTime = 0;
             sliderVideo.style.display = 'none';
@@ -757,10 +752,10 @@ function updateDescView() {
     }
 
     const descElem = document.getElementById('target-desc');
-if (descElem && currentDescArray[currentDescIdx]) {
-    descElem.innerText = currentDescArray[currentDescIdx];
-    descElem.classList.remove('font-compact');
-}
+    if (descElem && currentDescArray[currentDescIdx]) {
+        descElem.innerText = currentDescArray[currentDescIdx];
+        descElem.classList.remove('font-compact');
+    }
 
     const titleElem = document.getElementById('target-title');
     if (titleElem && currentDetailData) {
@@ -852,7 +847,7 @@ function resetAudioPlayer() {
 }
 
 /* ==========================================================================
-   05. MEDIA ZOOM VIEWER (확대 뷰어 모달 - 음성 재생 유지)
+   05. MEDIA ZOOM VIEWER
    ========================================================================== */
 function openMediaZoomModal(type, src) {
     if (!src) return;
@@ -876,7 +871,7 @@ function openMediaZoomModal(type, src) {
         if (zoomVideo) {
             zoomVideo.src = src;
             zoomVideo.controls = true;
-            zoomVideo.muted = true; // 음성 안내와 사운드 중첩 방지
+            zoomVideo.muted = true;
             zoomVideo.style.display = 'block';
             zoomVideo.play().catch(() => {});
         }
@@ -896,7 +891,6 @@ function closeMediaZoomModal() {
     if (modal) {
         modal.style.display = 'none';
     }
-    // ※ target-audio(음성안내)는 건드리지 않고 그대로 재생 유지
 }
 
 /* ==========================================================================
@@ -984,7 +978,7 @@ function closeLandmarkModal() {
 }
 
 /* ==========================================================================
-   07. FEATURE MODULES (세계 랜드마크 탐험 퀴즈 엔진)
+   07. FEATURE MODULES (이벤트 퀴즈 엔진)
    ========================================================================== */
 let quizQueue = [];
 const TARGET_SOLVED = 5;
@@ -1399,7 +1393,7 @@ function checkAnswer() {
         if (scoreIndicator) scoreIndicator.textContent = `SCORE: ${quizScore}`;
         updateCombo();
 
-        if (stampBody) stampBody.textContent = "✈️ ENTRY";
+        if (stampBody) stampBody.textContent = "✈️️ ENTRY";
         if (stampDate) stampDate.textContent = `ICN • STAGE ${solvedCount}`;
         if (passportStamp) passportStamp.className = "passport-stamp show";
         if (tmiText) tmiText.textContent = current.tmi;
@@ -1496,6 +1490,7 @@ function revealCorrectAnswerAndSkip(current) {
     }, 3000);
 }
 
+// 퀴즈 종료 (단일 선언)
 function finishGame() {
     clearInterval(quizTimerId);
     playQuizSound('chime');
@@ -1507,6 +1502,11 @@ function finishGame() {
     if (quizScreen) quizScreen.style.display = "none";
     if (gameOverScreen) gameOverScreen.style.display = "flex";
     if (finalScoreVal) finalScoreVal.textContent = `${quizScore} PTS`;
+
+    // 0.8초 후 만족도 설문조사 바텀시트 자동 오픈
+    setTimeout(() => {
+        openSurveyModal();
+    }, 800);
 }
 
 function restartGame() {
@@ -1514,30 +1514,33 @@ function restartGame() {
 }
 
 /* ==========================================================================
-   08. ANALYTICS & 10-MINUTE SESSION IN/OUT TRACKER
+   08. ANALYTICS & 9-COLUMN PIPELINE + SURVEY CONTROLLER
    ========================================================================== */
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBQcFxHn6fFGbQn3Mmlw6rVyayNaXqOboF-SDIc4pgo3f36RJbf7lWET5usChbzBpi/exec";
 const ADMIN_PASSCODE = "!DxpR26";
 const SESSION_TIMEOUT_MS = 10 * 60 * 1000;
 
 let currentViewingContent = null;
+let currentViewingMainDepth = null;
 let viewStartTime = null;
-
-let localStats = JSON.parse(localStorage.getItem('incheon_stats')) || {
-    hits: {},
-    durations: {},
-    days: { "일":0, "월":0, "화":0, "수":0, "목":0, "금":0, "토":0 },
-    hours: {},
-    totalSessions: 0,
-    sessionDurations: [],
-    sessionLogs: []
-};
 
 let sessionData = JSON.parse(localStorage.getItem('incheon_current_session')) || null;
 
+function resolveMainDepth(contentName) {
+    if (!contentName) return "-";
+    if (contentName.match(/마스터플랜|건설사업|부지 조성|관광|항공 지원|항공 물류|친환경 공항/)) return "마스터플랜";
+    if (contentName.match(/친환경|녹색혁신|Green Innovation|태양광|지열|미래공항|그린모빌리티|생태계|친환경 연료|운항 시스템/)) return "친환경 에너지 공항";
+    if (contentName.match(/스마트|셔틀|스마트패스|출국|AI 수하물/)) return "스마트 AI 공항";
+    if (contentName.match(/LED|Particle|Line|Organic|Aerograph/)) return "LED 미디어 플랫폼";
+    if (contentName.match(/세계명소|경복궁|일출봉|갤러리/)) return "세계명소";
+    if (contentName.match(/홍보관|PR zone/)) return "홍보관";
+    if (contentName.match(/브릿지|Bridge/)) return "브릿지";
+    if (contentName.match(/이벤트|퀴즈/)) return "이벤트";
+    return "마스터플랜";
+}
+
 function initSessionTracker() {
     const now = Date.now();
-    
     if (sessionData) {
         if (now - sessionData.lastActive > SESSION_TIMEOUT_MS) {
             closeSession(sessionData.lastActive, "10분 타임아웃 자동 OUT");
@@ -1571,118 +1574,117 @@ function initSessionTracker() {
 }
 
 function startNewSession(startTime) {
-    localStats.totalSessions = (localStats.totalSessions || 0) + 1;
-    localStorage.setItem('incheon_stats', JSON.stringify(localStats));
+    const now = new Date(startTime);
+    const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 
     sessionData = {
-        id: localStats.totalSessions,
+        sessionTag: null,
         inTime: startTime,
+        inTimeString: now.toLocaleString('ko-KR'),
         lastActive: startTime
     };
     localStorage.setItem('incheon_current_session', JSON.stringify(sessionData));
 
-    sendGoogleSheetLog({
-        type: "SESSION_IN",
-        contentName: `사용자 #${sessionData.id} 진입`,
-        duration: 0,
-        inTime: new Date(startTime).toLocaleString('ko-KR'),
-        outTime: "-"
-    });
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({
+            isNewSession: true,
+            inTime: sessionData.inTimeString,
+            mainDepth: "-",
+            detailContent: "웹앱 최초 접속 (IN)",
+            contentDuration: "-",
+            outTime: "-",
+            dayOfWeek: days[now.getDay()],
+            hourSlot: `${now.getHours()}시`,
+            totalDuration: "-"
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.sessionTag && sessionData) {
+            sessionData.sessionTag = data.sessionTag;
+            localStorage.setItem('incheon_current_session', JSON.stringify(sessionData));
+        }
+    })
+    .catch(() => {});
 }
 
-function closeSession(endTime, reason) {
-    if (!sessionData) return;
-    const durSec = Math.max(1, Math.round((endTime - sessionData.inTime) / 1000));
-
-    if (!localStats.sessionLogs) localStats.sessionLogs = [];
-    localStats.sessionLogs.unshift({
-        id: sessionData.id,
-        inTime: new Date(sessionData.inTime).toLocaleTimeString('ko-KR'),
-        outTime: new Date(endTime).toLocaleTimeString('ko-KR'),
-        durationSec: durSec,
-        type: reason
-    });
-
-    if (localStats.sessionLogs.length > 50) localStats.sessionLogs.pop();
-
-    if (!localStats.sessionDurations) localStats.sessionDurations = [];
-    localStats.sessionDurations.push(durSec);
-    localStorage.setItem('incheon_stats', JSON.stringify(localStats));
-
-    sendGoogleSheetLog({
-        type: "SESSION_OUT",
-        contentName: `사용자 #${sessionData.id} 이탈 (${reason})`,
-        duration: durSec,
-        inTime: new Date(sessionData.inTime).toLocaleString('ko-KR'),
-        outTime: new Date(endTime).toLocaleString('ko-KR')
-    });
-
-    sessionData = null;
-    localStorage.removeItem('incheon_current_session');
-}
-
-function sendGoogleSheetLog(data) {
+function sendGoogleSheetRow(payload) {
     if (!GOOGLE_SCRIPT_URL || !GOOGLE_SCRIPT_URL.startsWith("http")) return;
-    const now = new Date();
-    const daysMap = ["일", "월", "화", "수", "목", "금", "토"];
-
-    const payload = JSON.stringify({
-        timestamp: now.toLocaleString('ko-KR'),
-        type: data.type || "VIEW",
-        contentName: data.contentName || "페이지",
-        duration: data.duration || 0,
-        inTime: data.inTime || "-",
-        outTime: data.outTime || "-",
-        dayOfWeek: daysMap[now.getDay()],
-        hour: now.getHours()
-    });
-
+    if (sessionData && sessionData.sessionTag) {
+        payload.sessionTag = sessionData.sessionTag;
+    }
+    const bodyStr = JSON.stringify(payload);
     if (navigator.sendBeacon) {
-        const blob = new Blob([payload], { type: 'text/plain' });
+        const blob = new Blob([bodyStr], { type: 'text/plain' });
         navigator.sendBeacon(GOOGLE_SCRIPT_URL, blob);
     } else {
         fetch(GOOGLE_SCRIPT_URL, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: payload
+            headers: { "Content-Type": "text/plain" },
+            body: bodyStr
         }).catch(() => {});
     }
 }
 
 function finishCurrentViewing() {
-    if (!currentViewingContent || !viewStartTime) return;
-    const durationSec = Math.round((Date.now() - viewStartTime) / 1000);
+    if (!currentViewingContent || !viewStartTime || !sessionData) return;
+    const endMs = Date.now();
+    const durationSec = Math.max(1, Math.round((endMs - viewStartTime) / 1000));
     
-    if (durationSec >= 1) {
-        const now = new Date();
-        const daysMap = ["일", "월", "화", "수", "목", "금", "토"];
-        const dayStr = daysMap[now.getDay()];
-        const hourStr = now.getHours();
+    const min = Math.floor(durationSec / 60);
+    const sec = durationSec % 60;
+    const durText = min > 0 ? `${min}분 ${sec}초` : `${sec}초`;
 
-        if (!localStats.hits) localStats.hits = {};
-        if (!localStats.durations) localStats.durations = {};
-        if (!localStats.days) localStats.days = { "일":0, "월":0, "화":0, "수":0, "목":0, "금":0, "토":0 };
-        if (!localStats.hours) localStats.hours = {};
+    const viewDate = new Date(viewStartTime);
+    const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+    const mainDepth = currentViewingMainDepth || resolveMainDepth(currentViewingContent);
 
-        localStats.hits[currentViewingContent] = (localStats.hits[currentViewingContent] || 0) + 1;
-        if (!localStats.durations[currentViewingContent]) {
-            localStats.durations[currentViewingContent] = [];
-        }
-        localStats.durations[currentViewingContent].push(durationSec);
-        localStats.days[dayStr] = (localStats.days[dayStr] || 0) + 1;
-        localStats.hours[hourStr] = (localStats.hours[hourStr] || 0) + 1;
-        
-        localStorage.setItem('incheon_stats', JSON.stringify(localStats));
+    sendGoogleSheetRow({
+        isNewSession: false,
+        inTime: viewDate.toLocaleString('ko-KR'),
+        mainDepth: mainDepth,
+        detailContent: currentViewingContent,
+        contentDuration: durText,
+        outTime: "-",
+        dayOfWeek: days[viewDate.getDay()],
+        hourSlot: `${viewDate.getHours()}시`,
+        totalDuration: "-"
+    });
 
-        sendGoogleSheetLog({
-            type: "CONTENT_VIEW",
-            contentName: currentViewingContent,
-            duration: durationSec
-        });
-    }
     currentViewingContent = null;
+    currentViewingMainDepth = null;
     viewStartTime = null;
+}
+
+function closeSession(endTime, reason) {
+    if (!sessionData) return;
+    finishCurrentViewing();
+
+    const totalDurSec = Math.max(1, Math.round((endTime - sessionData.inTime) / 1000));
+    const min = Math.floor(totalDurSec / 60);
+    const sec = totalDurSec % 60;
+    const totalDurText = min > 0 ? `${min}분 ${sec}초` : `${sec}초`;
+
+    const endDate = new Date(endTime);
+    const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
+
+    sendGoogleSheetRow({
+        isNewSession: false,
+        inTime: sessionData.inTimeString,
+        mainDepth: "-",
+        detailContent: `전체 관람 종료 (${reason})`,
+        contentDuration: "-",
+        outTime: endDate.toLocaleString('ko-KR'),
+        dayOfWeek: days[endDate.getDay()],
+        hourSlot: `${endDate.getHours()}시`,
+        totalDuration: totalDurText
+    });
+
+    sessionData = null;
+    localStorage.removeItem('incheon_current_session');
 }
 
 document.addEventListener('visibilitychange', () => {
@@ -1697,11 +1699,15 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
+/* ==========================================================================
+   09. ADMIN DASHBOARD & HIDDEN TRIGGER CONTROLLER
+   ========================================================================== */
 let adminTapCount = 0;
 let adminTapTimer = null;
 
 function handleHiddenAdminTap() {
     adminTapCount++;
+
     clearTimeout(adminTapTimer);
     adminTapTimer = setTimeout(() => {
         adminTapCount = 0;
@@ -1742,7 +1748,6 @@ function verifyAdminPin() {
 function openAdminDashboard() {
     document.getElementById('main-screen').style.display = 'none';
     hideAllSubViews();
-    renderAdminDashboardData();
 
     const adminScreen = document.getElementById('admin-screen');
     if (adminScreen) {
@@ -1750,6 +1755,8 @@ function openAdminDashboard() {
         adminScreen.classList.add('active');
         adminScreen.scrollTop = 0;
     }
+    
+    fetchGlobalSheetTimeline();
 }
 
 function closeAdminDashboard() {
@@ -1761,111 +1768,167 @@ function closeAdminDashboard() {
     document.getElementById('main-screen').style.display = 'flex';
 }
 
-function renderAdminDashboardData() {
-    const sorted = Object.keys(localStats.hits).sort((a, b) => localStats.hits[b] - localStats.hits[a]);
-    const tableBody = document.getElementById('stat-content-tbody');
-    if (tableBody) {
-        tableBody.innerHTML = '';
-        if (sorted.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="3" style="text-align:center;">데이터 없음</td></tr>';
-        } else {
-            sorted.forEach(name => {
-                const hits = localStats.hits[name];
-                const durArr = localStats.durations[name] || [];
-                const avgSec = durArr.length > 0 
-                    ? Math.round(durArr.reduce((a, b) => a + b, 0) / durArr.length) 
-                    : 0;
-
-                tableBody.innerHTML += `
-                    <tr>
-                        <td>${name}</td>
-                        <td><strong>${hits}</strong>회</td>
-                        <td>${avgSec}초</td>
-                    </tr>
-                `;
-            });
-        }
+function resetLocalStats() {
+    if (confirm("로컬 캐시 세션을 초기화하시겠습니까? (구글 시트의 전체 데이터는 안전하게 보존됩니다)")) {
+        localStorage.removeItem('incheon_current_session');
+        alert("로컬 세션이 초기화되었습니다.");
+        fetchGlobalSheetTimeline();
     }
-
-    const sessionLogBody = document.getElementById('stat-session-log-tbody');
-    if (sessionLogBody) {
-        sessionLogBody.innerHTML = '';
-        const logs = localStats.sessionLogs || [];
-        if (logs.length === 0) {
-            sessionLogBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">기록된 세션 로그 없음</td></tr>';
-        } else {
-            logs.forEach(log => {
-                const min = Math.floor(log.durationSec / 60);
-                const sec = log.durationSec % 60;
-                const durText = min > 0 ? `${min}분 ${sec}초` : `${sec}초`;
-                sessionLogBody.innerHTML += `
-                    <tr>
-                        <td>#${log.id}</td>
-                        <td>${log.inTime}</td>
-                        <td>${log.outTime}</td>
-                        <td><strong>${durText}</strong></td>
-                    </tr>
-                `;
-            });
-        }
-    }
-
-    const dayList = document.getElementById('stat-day-list');
-    if (dayList) {
-        dayList.innerHTML = '';
-        ["월", "화", "수", "목", "금", "토", "일"].forEach(day => {
-            dayList.innerHTML += `<li>${day}요일: ${localStats.days[day] || 0}회</li>`;
-        });
-    }
-
-    const hourList = document.getElementById('stat-hour-list');
-    if (hourList) {
-        hourList.innerHTML = '';
-        const sortedHours = Object.keys(localStats.hours).sort((a, b) => localStats.hours[b] - localStats.hours[a]);
-        if (sortedHours.length === 0) {
-            hourList.innerHTML = '<li>집계 없음</li>';
-        } else {
-            sortedHours.slice(0, 3).forEach(h => {
-                hourList.innerHTML += `<li>${h}시 대 (${localStats.hours[h]}회)</li>`;
-            });
-        }
-    }
-
-    const totalSessions = localStats.totalSessions || 0;
-    const sessionDurs = localStats.sessionDurations || [];
-    const avgSessionSec = sessionDurs.length > 0 
-        ? Math.round(sessionDurs.reduce((a, b) => a + b, 0) / sessionDurs.length) 
-        : 0;
-
-    const min = Math.floor(avgSessionSec / 60);
-    const sec = avgSessionSec % 60;
-    const timeDisplay = min > 0 ? `${min}분 ${sec}초` : `${sec}초`;
-
-    const statTotalSessionsEl = document.getElementById('stat-total-sessions');
-    if (statTotalSessionsEl) statTotalSessionsEl.innerText = `${totalSessions}회`;
-    
-    const statAvgTimeEl = document.getElementById('stat-avg-session-time');
-    if (statAvgTimeEl) statAvgTimeEl.innerText = timeDisplay;
 }
 
-function resetLocalStats() {
-    if (confirm("누적된 로컬 통계 데이터를 초기화하시겠습니까? (구글 시트 데이터는 유지됩니다)")) {
-        localStats = {
-            hits: {},
-            durations: {},
-            days: { "일":0, "월":0, "화":0, "수":0, "목":0, "금":0, "토":0 },
-            hours: {},
-            totalSessions: 0,
-            sessionDurations: [],
-            sessionLogs: []
-        };
-        localStorage.removeItem('incheon_stats');
-        renderAdminDashboardData();
+function fetchGlobalSheetTimeline() {
+    const timelineTbody = document.getElementById('session-timeline-tbody');
+    const contentTbody = document.getElementById('stat-content-tbody');
+    const dayListEl = document.getElementById('stat-day-list');
+    const hourListEl = document.getElementById('stat-hour-list');
+
+    if (timelineTbody) {
+        timelineTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#64748B;">구글 시트 전체 통합 데이터 분석 중...</td></tr>`;
     }
+
+    if (!GOOGLE_SCRIPT_URL || !GOOGLE_SCRIPT_URL.startsWith("http")) return;
+
+    fetch(GOOGLE_SCRIPT_URL)
+        .then(res => res.json())
+        .then(res => {
+            if (res.status !== "success") return;
+
+            if (timelineTbody && res.timeline) {
+                timelineTbody.innerHTML = '';
+                if (res.timeline.length === 0) {
+                    timelineTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px;">누적된 세션 종료 기록이 없습니다.</td></tr>`;
+                } else {
+                    res.timeline.forEach((log) => {
+                        let inDisp = log.inTime.includes(' ') ? log.inTime.split(' ').slice(-2).join(' ') : log.inTime;
+                        let outDisp = log.outTime.includes(' ') ? log.outTime.split(' ').slice(-2).join(' ') : log.outTime;
+                        timelineTbody.innerHTML += `
+                            <tr>
+                                <td><strong>${log.sessionNum}</strong></td>
+                                <td>${inDisp}</td>
+                                <td>${outDisp}</td>
+                                <td style="color:#0284c7; font-weight:700;">${log.duration}</td>
+                            </tr>
+                        `;
+                    });
+                }
+            }
+
+            if (contentTbody && res.depthStats) {
+                contentTbody.innerHTML = '';
+                const depthOrder = [
+                    "마스터플랜", "친환경 에너지 공항", "스마트 AI 공항", "LED 미디어 플랫폼",
+                    "세계명소", "홍보관", "브릿지", "이벤트"
+                ];
+
+                depthOrder.forEach(depthName => {
+                    const item = res.depthStats[depthName] || { count: 0, totalSec: 0 };
+                    const avgSec = item.count > 0 ? Math.round(item.totalSec / item.count) : 0;
+                    const avgMin = Math.floor(avgSec / 60);
+                    const avgSecRem = avgSec % 60;
+                    const avgText = avgMin > 0 ? `${avgMin}분 ${avgSecRem}초` : `${avgSecRem}초`;
+
+                    contentTbody.innerHTML += `
+                        <tr>
+                            <td><strong>${depthName}</strong></td>
+                            <td style="text-align:center;">${item.count}회</td>
+                            <td style="text-align:right; color:#2563eb; font-weight:600;">${item.count > 0 ? avgText : '-'}</td>
+                        </tr>
+                    `;
+                });
+            }
+
+            if (dayListEl && res.dayDistribution) {
+                dayListEl.innerHTML = '';
+                Object.keys(res.dayDistribution).forEach(day => {
+                    dayListEl.innerHTML += `<li><span>${day}</span><strong>${res.dayDistribution[day]}회</strong></li>`;
+                });
+            }
+
+            if (hourListEl && res.hourDistribution) {
+                hourListEl.innerHTML = '';
+                const sortedHours = Object.entries(res.hourDistribution)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 3);
+
+                sortedHours.forEach(([hour, cnt], rank) => {
+                    hourListEl.innerHTML += `<li><span>TOP ${rank+1} (${hour})</span><strong>${cnt}회</strong></li>`;
+                });
+            }
+        })
+        .catch(err => console.warn("구글 시트 연동 오류:", err));
 }
 
 /* ==========================================================================
-   09. INITIALIZATION
+   10. SATISFACTION SURVEY CONTROLLER
+   ========================================================================== */
+function openSurveyModal() {
+    const modal = document.getElementById('survey-modal');
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeSurveyModal() {
+    const modal = document.getElementById('survey-modal');
+    if (modal) modal.style.display = 'none';
+}
+
+function submitSurvey(e) {
+    e.preventDefault();
+    const btn = document.getElementById('survey-submit-btn');
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "제출 중...";
+    }
+
+    const form = document.getElementById('survey-form');
+    const formData = new FormData(form);
+    const currentTag = (sessionData && sessionData.sessionTag) ? sessionData.sessionTag : "-";
+    const selectedFavZones = formData.getAll('favZone');
+    const favZoneResult = selectedFavZones.length > 0 ? selectedFavZones.join(', ') : '-';
+
+    const payload = {
+        action: "survey",
+        sessionTag: currentTag,
+        submittedAt: new Date().toLocaleString('ko-KR'),
+        satisfaction: formData.get('satisfaction') || '-',
+        favoriteZone: favZoneResult,
+        usability: formData.get('usability') || '-',
+        comprehension: formData.get('comprehension') || '-',
+        reuseIntent: formData.get('reuseIntent') || '-',
+        feedback: document.getElementById('survey-feedback').value || '-'
+    };
+
+    fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
+    })
+    .then(() => {
+        alert(
+            "🎁 설문 참여가 완료되었습니다!\n\n" +
+            "직원에게 이 화면을 보여주시면\n" +
+            "준비된 기념 선물을 드립니다. 감사합니다!"
+        );
+        form.reset();
+        closeSurveyModal();
+    })
+    .catch(() => {
+        alert(
+            "🎁 설문 참여가 완료되었습니다!\n\n" +
+            "직원에게 이 화면을 보여주시면\n" +
+            "준비된 기념 선물을 드립니다. 감사합니다!"
+        );
+        closeSurveyModal();
+    })
+    .finally(() => {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "설문 제출 완료";
+        }
+    });
+}
+
+/* ==========================================================================
+   11. INITIALIZATION
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
     initSessionTracker();

@@ -6,7 +6,8 @@
     <title>인천공항 홍보관</title>
     <!-- FontAwesome 아이콘 폰트 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20261004">
+    <script src="script.js?v=20261004"></script>
 </head>
 <body>
 
@@ -113,7 +114,7 @@
     <div id="admin-auth-modal" class="admin-modal" style="display: none;">
         <div class="admin-modal-content">
             <h3><i class="fa-solid fa-lock"></i> 관리자 전용 인증</h3>
-            <p>통계 관리 화면은 관리자만 진입할 수 있습니다.</p>
+            <p>관리자만 진입할 수 있습니다.</p>
             <input type="password" id="admin-pin" placeholder="관리자 암호 입력" maxlength="8">
             <div class="modal-btns">
                 <button class="btn-cancel" onclick="closeAdminAuth()">취소</button>
@@ -132,61 +133,47 @@
         <div class="admin-dashboard-container">
             <div class="dashboard-header">
                 <h2>📊 전시관 통계 분석 대시보드</h2>
-                <p>구글 스프레드시트와 실시간 연동되는 로컬 통계 데이터입니다.</p>
+                <p>실시간 동기화 데이터입니다.</p>
             </div>
 
-            <!-- 요약 카드 -->
+            <!-- 1) 최근 방문자 IN / OUT 타임라인 -->
             <div class="admin-card">
-                <h3>⏱️ 총 관람객 체류 현황 요약</h3>
-                <div style="display: flex; justify-content: space-around; text-align: center; padding: 10px 0;">
-                    <div>
-                        <span style="font-size: 0.8rem; color: #64748B; display: block;">총 방문 세션 (IN)</span>
-                        <strong id="stat-total-sessions" style="font-size: 1.4rem; color: #1E293B;">0회</strong>
-                    </div>
-                    <div style="border-left: 1px solid #E2E8F0;"></div>
-                    <div>
-                        <span style="font-size: 0.8rem; color: #64748B; display: block;">평균 총 관람 시간</span>
-                        <strong id="stat-avg-session-time" style="font-size: 1.4rem; color: #2563EB;">0초</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 최근 방문자 In/Out 로그 (10분 타임아웃 세션 내역) -->
-            <div class="admin-card">
-                <h3>🚪 최근 방문자 IN / OUT 타임라인 (10분 기준)</h3>
+                <h3>🚪 최근 방문자 IN / OUT 타임라인</h3>
                 <table class="stat-table">
                     <thead>
                         <tr>
                             <th>방문번호</th>
-                            <th>진입 일시(IN)</th>
-                            <th>이탈 일시(OUT)</th>
-                            <th>체류시간</th>
+                            <th>진입일시 (IN)</th>
+                            <th>최종이탈 (OUT)</th>
+                            <th>총 체류시간</th>
                         </tr>
                     </thead>
-                    <tbody id="stat-session-log-tbody">
-                        <tr><td colspan="4" style="text-align: center;">기록된 방문 로그가 없습니다.</td></tr>
+                    <tbody id="session-timeline-tbody">
+                        <tr><td colspan="4" style="text-align:center; padding:15px; color:#64748B;">데이터 동기화 대기 중...</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- 콘텐츠별 조회 건수 및 관람시간 -->
+            <!-- 2) 홈뎁스별 집계 테이블 -->
             <div class="admin-card">
-                <h3>⏱️ 콘텐츠별 평균 관람 시간 & 조회 건수</h3>
+                <h3>⏱️ 컨텐츠별 토탈 조회수 & 평균 체류 시간</h3>
                 <table class="stat-table">
                     <thead>
                         <tr>
-                            <th>콘텐츠명</th>
-                            <th>조회수</th>
-                            <th>평균 관람시간</th>
+                            <th>메인 콘텐츠 구분</th>
+                            <th style="text-align:center;">토탈 조회수</th>
+                            <th style="text-align:right;">평균 체류시간</th>
                         </tr>
                     </thead>
-                    <tbody id="stat-content-tbody"></tbody>
+                    <tbody id="stat-content-tbody">
+                        <!-- JS 연동 주입 -->
+                    </tbody>
                 </table>
             </div>
 
-            <!-- 요일 및 시간대 패턴 -->
+            <!-- 3) 요일 및 시간대별 패턴 -->
             <div class="admin-card">
-                <h3>📅 요일 및 시간대별 이용 패턴</h3>
+                <h3>📅 요일 및 시간대별 이용 패턴 (월간 누적)</h3>
                 <div class="pattern-grid">
                     <div>
                         <strong class="sub-label">요일별 이용 건수</strong>
@@ -209,6 +196,84 @@
             </div>
         </div>
     </section>
+
+    <!-- ==========================================================================
+         만족도 설문조사 모달 (바텀시트형)
+         ========================================================================== -->
+    <div id="survey-modal" class="survey-modal" style="display: none;">
+        <div class="survey-backdrop" onclick="closeSurveyModal()"></div>
+        <div class="survey-box">
+            <div class="survey-header">
+                <h3>✈️ 전시관 관람 만족도 조사</h3>
+                <p>더 나은 전시 서비스를 위해 의견을 들려주세요!</p>
+                <button class="survey-close-btn" onclick="closeSurveyModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form id="survey-form" onsubmit="submitSurvey(event)">
+                <!-- Q1. 별점 만족도 -->
+                <div class="survey-group">
+                    <label class="survey-label">1. 오늘 관람 경험은 어떠셨나요?</label>
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="satisfaction" value="5점(매우만족)" required><label for="star5">★</label>
+                        <input type="radio" id="star4" name="satisfaction" value="4점(만족)"><label for="star4">★</label>
+                        <input type="radio" id="star3" name="satisfaction" value="3점(보통)"><label for="star3">★</label>
+                        <input type="radio" id="star2" name="satisfaction" value="2점(아쉬움)"><label for="star2">★</label>
+                        <input type="radio" id="star1" name="satisfaction" value="1점(불만족)"><label for="star1">★</label>
+                    </div>
+                </div>
+
+                <!-- Q2. 가장 인상 깊었던 구역 (복수 선택 & 아이콘) -->
+                <div class="survey-group">
+                    <label class="survey-label">2. 가장 흥미로웠던 전시 구역은 어디인가요? (중복 선택 가능)</label>
+                    <div class="chip-group">
+                        <label class="chip-item"><input type="checkbox" name="favZone" value="마스터플랜"><span><i class="fa-solid fa-map-location-dot"></i> 마스터플랜</span></label>
+                        <label class="chip-item"><input type="checkbox" name="favZone" value="친환경 에너지"><span><i class="fa-solid fa-leaf"></i> 친환경 에너지</span></label>
+                        <label class="chip-item"><input type="checkbox" name="favZone" value="스마트 AI"><span><i class="fa-solid fa-microchip"></i> 스마트 AI</span></label>
+                        <label class="chip-item"><input type="checkbox" name="favZone" value="LED 미디어"><span><i class="fa-solid fa-display"></i> LED 미디어</span></label>
+                        <label class="chip-item"><input type="checkbox" name="favZone" value="세계명소·퀴즈"><span><i class="fa-solid fa-earth-americas"></i> 세계명소·퀴즈</span></label>
+                    </div>
+                </div>
+
+                <!-- Q3. 앱 이용 편의성 -->
+                <div class="survey-group">
+                    <label class="survey-label">3. 모바일 가이드 이용은 편리하셨나요?</label>
+                    <div class="chip-group">
+                        <label class="chip-item"><input type="radio" name="usability" value="매우 편리함" required><span>😃 매우 편리함</span></label>
+                        <label class="chip-item"><input type="radio" name="usability" value="보통"><span>😐 보통</span></label>
+                        <label class="chip-item"><input type="radio" name="usability" value="불편함"><span>🙁 불편함</span></label>
+                    </div>
+                </div>
+
+                <!-- Q4. 이해 도움 정도 -->
+                <div class="survey-group">
+                    <label class="survey-label">4. 앱이 전시 콘텐츠를 이해하는 데 도움이 되었나요?</label>
+                    <div class="chip-group">
+                        <label class="chip-item"><input type="radio" name="comprehension" value="큰 도움 됨" required><span>💡 큰 도움 됨</span></label>
+                        <label class="chip-item"><input type="radio" name="comprehension" value="보통"><span>👌 보통</span></label>
+                        <label class="chip-item"><input type="radio" name="comprehension" value="도움 안 됨"><span>🤔 도움 안 됨</span></label>
+                    </div>
+                </div>
+
+                <!-- Q5. 재이용 의향 -->
+                <div class="survey-group">
+                    <label class="survey-label">5. 다른 전시관에서도 이런 앱이 제공된다면 이용하시겠어요?</label>
+                    <div class="chip-group">
+                        <label class="chip-item"><input type="radio" name="reuseIntent" value="꼭 이용할 것" required><span>👍 꼭 이용할 것</span></label>
+                        <label class="chip-item"><input type="radio" name="reuseIntent" value="상황에 따라"><span>🤔 상황에 따라</span></label>
+                        <label class="chip-item"><input type="radio" name="reuseIntent" value="이용 안 함"><span>👋 이용 안 함</span></label>
+                    </div>
+                </div>
+
+                <!-- Q6. 개선 의견 -->
+                <div class="survey-group">
+                    <label class="survey-label">6. 건의사항이나 남기고 싶은 한마디 (선택)</label>
+                    <input type="text" id="survey-feedback" class="survey-input" placeholder="자유롭게 적어주세요">
+                </div>
+
+                <button type="submit" class="survey-submit-btn" id="survey-submit-btn">설문 제출 완료</button>
+            </form>
+        </div>
+    </div>
 
     <!-- ================================================================= -->
     <!-- 03. 상세 및 서브 뎁스 화면 (Depth Screen) -->
@@ -254,7 +319,7 @@
         <div class="sub-menu-view" id="construction-sub-menu" style="display: none;">
             <div class="sub-menu-header">
                 <h2>단계별 건설사업</h2>
-                <p>각 단계별 아이콘을 선택하시면 세부 건설 내역을 확인할 수 있습니다.</p>
+                <p>각 아이콘을 선택하시면 단계별 건설 사업을 확인할 수 있습니다.</p>
             </div>
             <div class="sub-menu-list">
                 <div class="sub-item" onclick="openFinalDetail('부지 조성')">
@@ -284,19 +349,17 @@
         <div class="sub-menu-view" id="eco-sub-menu" style="display: none;">
             <div class="sub-menu-header">
                 <h2>친환경 에너지 공항</h2>
-                <p>지속가능한 하늘을 여는 글로벌 탄소중립 허브공항</p>
+                <p>지속가능한 하늘을 여는 글로벌 탄소중립 허브공항을 만들어 갑니다.</p>
             </div>
             <div class="sub-menu-list">
                 <div class="sub-item" onclick="openEcoInnovationMenu()">
                     <div class="sub-circle"><i class="fa-solid fa-lightbulb"></i></div>
                     <span>인천공항 녹색혁신</span>
                 </div>
-                <!-- 3뎁스 메뉴로 연결하도록 함수 변경 -->
                 <div class="sub-item" onclick="openEcoBuildMenu()">
                     <div class="sub-circle"><i class="fa-solid fa-tree"></i></div>
                     <span>친환경 공항 조성</span>
                 </div>
-                <!-- 3뎁스 메뉴로 연결하도록 함수 변경 -->
                 <div class="sub-item" onclick="openEcoCarbonMenu()">
                     <div class="sub-circle"><i class="fa-solid fa-smog"></i></div>
                     <span>항공 탄소배출 저감</span>
@@ -331,7 +394,7 @@
             </div>
         </div>
 
-        <!-- ★ [신설] 3-5) 친환경 공항 조성 3뎁스 -->
+        <!-- 3-5) 친환경 공항 조성 3뎁스 -->
         <div class="sub-menu-view" id="eco-build-sub-menu" style="display: none;">
             <div class="sub-menu-header">
                 <h2>친환경 공항 조성</h2>
@@ -349,7 +412,7 @@
             </div>
         </div>
 
-        <!-- ★ [신설] 3-6) 항공 탄소배출 저감 3뎁스 -->
+        <!-- 3-6) 항공 탄소배출 저감 3뎁스 -->
         <div class="sub-menu-view" id="eco-carbon-sub-menu" style="display: none;">
             <div class="sub-menu-header">
                 <h2>항공 탄소배출 저감</h2>
@@ -416,14 +479,13 @@
             <div class="landmark-grid" id="landmark-grid"></div>
         </div>
 
-        <!-- 3-10) 최종 공통 상세 화면 프레임 (단일 미디어 및 1:1 오디오 바) -->
+        <!-- 3-10) 최종 공통 상세 화면 프레임 -->
         <div class="depth-body" id="general-depth-body" style="display: none;">
             <div class="depth-media-box" style="position: relative;">
                 <img src="" id="target-img" alt="전시 시각 자료" style="width: 100%; height: 100%; object-fit: cover;">
-                <!-- 단일 비디오 태그: 무음 자동재생 및 모바일 최적화 -->
                 <video id="target-video" playsinline webkit-playsinline muted autoplay loop style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
                      
-                <!-- 브릿지 등 다중 슬라이더용 컨테이너 유지 -->
+                <!-- 브릿지 등 다중 슬라이더용 컨테이너 -->
                 <div id="slider-container" style="display: none; width: 100%; height: 100%; position: relative;">
                     <img src="" id="slider-img" alt="슬라이드 시각 자료" style="width: 100%; height: 100%; object-fit: cover;">
                     <video id="slider-video" controls playsinline webkit-playsinline style="display: none; width: 100%; height: 100%; object-fit: cover;"></video>
@@ -560,6 +622,10 @@
                         </div>
                     </div>
 
+                    <button class="reset-btn" onclick="openSurveyModal()" style="background: linear-gradient(135deg, #0284C7 0%, #2563EB 100%); margin-bottom: 4px;">
+                        <span>📝</span> 관람 만족도 조사 참여하기
+                    </button>
+
                     <button class="reset-btn" onclick="restartGame()">
                         <span>✈️</span> 다시 비행 탑승하기
                     </button>
@@ -569,7 +635,7 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- 04. 세계명소 상세 확대 모달 (국기 및 랜드마크 아이콘 적용) -->
+    <!-- 04. 세계명소 상세 확대 모달 -->
     <!-- ================================================================= -->
     <div id="landmark-modal" class="landmark-modal" style="display: none;">
         <div class="landmark-modal-backdrop" onclick="closeLandmarkModal()"></div>
@@ -582,34 +648,26 @@
             </div>
             <div class="modal-info-wrap">
                 <div class="modal-title-row">
-                 <h3 id="modal-landmark-title"></h3>
-              </div>
+                    <h3 id="modal-landmark-title"></h3>
+                </div>
                 <p id="modal-landmark-desc">명소에 대한 상세 설명이 표시됩니다.</p>
             </div>
         </div>
     </div>
 
-    <!-- 스크립트 연결 -->
-    <script src="script.js"></script>
-</body>
-<!-- ================================================================= -->
-<!-- ★ 상세 미디어(사진/영상) 전체화면 확대 팝업 라이트박스 -->
-<!-- ================================================================= -->
-<div id="media-zoom-modal" class="media-zoom-modal" style="display: none;">
-    <!-- 어두운 배경 터치 시 닫기 -->
-    <div class="media-zoom-backdrop" onclick="closeMediaZoomModal()"></div>
-    
-    <div class="media-zoom-content">
-        <!-- 닫기 버튼 -->
-        <button class="zoom-close-btn" onclick="closeMediaZoomModal()" title="닫기">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        <!-- 확대 이미지 영역 -->
-        <img id="zoom-modal-img" src="" alt="확대 이미지" style="display: none;">
-
-        <!-- 확대 동영상 영역 -->
-        <video id="zoom-modal-video" controls playsinline style="display: none;"></video>
+    <!-- ================================================================= -->
+    <!-- 05. 상세 미디어 전체화면 확대 라이트박스 -->
+    <!-- ================================================================= -->
+    <div id="media-zoom-modal" class="media-zoom-modal" style="display: none;">
+        <div class="media-zoom-backdrop" onclick="closeMediaZoomModal()"></div>
+        <div class="media-zoom-content">
+            <button class="zoom-close-btn" onclick="closeMediaZoomModal()" title="닫기">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <img id="zoom-modal-img" src="" alt="확대 이미지" style="display: none;">
+            <video id="zoom-modal-video" controls playsinline style="display: none;"></video>
+        </div>
     </div>
-</div>
+
+</body>
 </html>
