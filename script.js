@@ -1783,20 +1783,27 @@ function fetchGlobalSheetTimeline() {
     const hourListEl = document.getElementById('stat-hour-list');
 
     if (timelineTbody) {
-        timelineTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#64748B;">구글 시트 전체 통합 데이터 분석 중...</td></tr>`;
+        timelineTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#64748B;">구글 시트 데이터 연결 중...</td></tr>`;
     }
 
-    if (!GOOGLE_SCRIPT_URL || !GOOGLE_SCRIPT_URL.startsWith("http")) return;
+    // 6초 통신 타임아웃 방어
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
-    fetch(GOOGLE_SCRIPT_URL)
-        .then(res => res.json())
+    fetch(GOOGLE_SCRIPT_URL, { signal: controller.signal })
         .then(res => {
-            if (res.status !== "success") return;
+            clearTimeout(timeoutId);
+            if (!res.ok) throw new Error("서버 응답 오류");
+            return res.json();
+        })
+        .then(res => {
+            if (res.status !== "success") throw new Error("데이터 수신 실패");
 
+            // 1. 타임라인 표출
             if (timelineTbody && res.timeline) {
                 timelineTbody.innerHTML = '';
                 if (res.timeline.length === 0) {
-                    timelineTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px;">누적된 세션 종료 기록이 없습니다.</td></tr>`;
+                    timelineTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#64748B;">누적된 세션 종료 기록이 없습니다.</td></tr>`;
                 } else {
                     res.timeline.forEach((log) => {
                         let inDisp = log.inTime.includes(' ') ? log.inTime.split(' ').slice(-2).join(' ') : log.inTime;
@@ -1813,6 +1820,7 @@ function fetchGlobalSheetTimeline() {
                 }
             }
 
+            // 2. 8대 메인 홈뎁스 통계 표출
             if (contentTbody && res.depthStats) {
                 contentTbody.innerHTML = '';
                 const depthOrder = [
@@ -1837,6 +1845,7 @@ function fetchGlobalSheetTimeline() {
                 });
             }
 
+            // 3. 요일별 통계
             if (dayListEl && res.dayDistribution) {
                 dayListEl.innerHTML = '';
                 Object.keys(res.dayDistribution).forEach(day => {
@@ -1844,6 +1853,7 @@ function fetchGlobalSheetTimeline() {
                 });
             }
 
+            // 4. 시간대 피크 TOP 3
             if (hourListEl && res.hourDistribution) {
                 hourListEl.innerHTML = '';
                 const sortedHours = Object.entries(res.hourDistribution)
@@ -1855,7 +1865,34 @@ function fetchGlobalSheetTimeline() {
                 });
             }
         })
-        .catch(err => console.warn("구글 시트 연동 오류:", err));
+        .catch(err => {
+            clearTimeout(timeoutId);
+            console.warn("구글 시트 연동 지연/오류:", err);
+            
+            // 통신 지연 시 멈춤 현상 방지 및 안내 문구 표출
+            if (timelineTbody) {
+                timelineTbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align:center; padding:15px; color:#ef4444; font-size:0.75rem;">
+                            ⚠️ 구글 시트 연결 대기 중입니다.<br>(Apps Script 새 버전 배포를 확인해 주세요)
+                        </td>
+                    </tr>
+                `;
+            }
+            if (contentTbody && contentTbody.children.length === 0) {
+                const depthOrder = ["마스터플랜", "친환경 에너지 공항", "스마트 AI 공항", "LED 미디어 플랫폼", "세계명소", "홍보관", "브릿지", "이벤트"];
+                contentTbody.innerHTML = '';
+                depthOrder.forEach(depthName => {
+                    contentTbody.innerHTML += `
+                        <tr>
+                            <td><strong>${depthName}</strong></td>
+                            <td style="text-align:center;">-</td>
+                            <td style="text-align:right; color:#64748B;">-</td>
+                        </tr>
+                    `;
+                });
+            }
+        });
 }
 
 /* ==========================================================================
